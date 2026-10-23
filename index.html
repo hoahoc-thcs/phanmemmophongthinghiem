@@ -1,0 +1,3114 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khám Phá Tính Chất Hóa Học Của Kim Loại Kiềm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .chemical-font {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* LEFT PANEL STYLE - LIGHT THEME FOR VISIBILITY */
+        .experiment-panel {
+            background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Right Panel Distinct Background */
+        .tool-panel {
+            background: linear-gradient(180deg, #1e1b4b 0%, #312e81 100%);
+            border-left: 4px solid #4338ca;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 3D Button Effect */
+        .btn-3d {
+            transition: all 0.1s;
+            border-bottom-width: 3px;
+        }
+
+        .btn-3d:active {
+            transform: translateY(3px);
+            border-bottom-width: 0px;
+        }
+
+        /* --- GLASS BASIN STYLES --- */
+        .glass-basin {
+            width: 100px;
+            height: 70px;
+            border: 2px solid rgba(71, 85, 105, 0.5);
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.4);
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.5);
+            z-index: 10;
+        }
+
+        .glass-basin.broken {
+            border-color: transparent;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .glass-basin.broken::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 L0,50 L20,70 L40,60 L60,70 L100,50 L100,0 Z' fill='rgba(255,255,255,0.1)' stroke='rgba(51,65,85,0.5)' stroke-width='2'/%3E%3Cpath d='M20,70 L50,40' stroke='rgba(51,65,85,0.5)' stroke-width='1'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        /* Shockwave Animation */
+        @keyframes shock-shake {
+            0% {
+                transform: scale(1) translateX(0);
+            }
+
+            10% {
+                transform: scale(1.1) translateX(-2px);
+            }
+
+            30% {
+                transform: scale(0.95) translateX(2px);
+            }
+
+            50% {
+                transform: scale(1.05) translateX(-2px);
+            }
+
+            70% {
+                transform: scale(0.98) translateX(2px);
+            }
+
+            100% {
+                transform: scale(1) translateX(0);
+            }
+        }
+
+        .basin-shock {
+            animation: shock-shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+            border-color: rgba(220, 38, 38, 0.6);
+            box-shadow: 0 0 40px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Visual Shockwave Ring */
+        .shock-ring {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.1);
+            width: 150px;
+            height: 50px;
+            border: 6px solid rgba(59, 130, 246, 0.8);
+            border-bottom-color: transparent;
+            border-radius: 50% 50% 0 0;
+            opacity: 0;
+            z-index: 20;
+            pointer-events: none;
+            box-shadow: 0 0 30px rgba(147, 197, 253, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes shockwave-expand {
+            0% {
+                transform: translateX(-50%) scale(0.1);
+                opacity: 0;
+                border-width: 8px;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(-50%) scale(1.5);
+                opacity: 0;
+                border-width: 0px;
+            }
+        }
+
+        .active-shockwave {
+            animation: shockwave-expand 0.5s ease-out forwards;
+        }
+
+        /* --- SAFETY SHIELD STYLE --- */
+        .safety-shield {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 140px;
+            border: 2px solid rgba(100, 116, 139, 0.4);
+            border-top: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .safety-shield::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: repeating-linear-gradient(45deg, #eab308, #eab308 8px, #171717 8px, #171717 16px);
+            opacity: 0.9;
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Shield Lid */
+        .shield-lid {
+            position: absolute;
+            top: -12px;
+            left: -2px;
+            width: calc(100% + 4px);
+            height: 20px;
+            background: #475569;
+            border: 2px solid #eab308;
+            border-radius: 4px 4px 0 0;
+            transform-origin: left center;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .shield-slot {
+            width: 24px;
+            height: 6px;
+            background: #0f172a;
+            border: 1px solid #94a3b8;
+            border-radius: 3px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .shield-slot::after {
+            content: '▼';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 8px;
+            color: #eab308;
+            opacity: 0.7;
+        }
+
+        .shield-lid.open {
+            transform: rotate(-110deg);
+        }
+
+        /* Shield Label */
+        .shield-label-bottom {
+            position: absolute;
+            bottom: -55px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ca8a04;
+            color: #000;
+            font-size: 7px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            z-index: 20;
+            border: 1px solid #facc15;
+            letter-spacing: 0.5px;
+        }
+
+        /* Fragile Warning */
+        .fragile-sign {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 50px;
+            background: #fff;
+            border: 2px solid #ef4444;
+            color: #ef4444;
+            padding: 2px;
+            border-radius: 4px;
+            font-size: 8px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 30;
+            animation: pulseWarning 1s infinite;
+        }
+
+        .fragile-sign::before {
+            content: '⚠️';
+            display: block;
+            font-size: 12px;
+            margin-bottom: 0px;
+        }
+
+        @keyframes pulseWarning {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .liquid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background-color: rgba(56, 189, 248, 0.2);
+            transition: height 1s ease-out, background-color 0.5s ease;
+            box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .liquid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Bubble Animation */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            bottom: 0;
+            animation: rise 2s infinite ease-in;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-50px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Metal Styles */
+        .metal-piece {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4), inset -2px -2px 5px rgba(0, 0, 0, 0.7);
+            transition: top 0.5s ease-in, left 0.2s linear;
+            z-index: 10;
+        }
+
+        /* Flame Effect */
+        .flame {
+            position: absolute;
+            width: 15px;
+            height: 25px;
+            border-radius: 50% 50% 20% 20%;
+            filter: blur(4px);
+            z-index: 11;
+            animation: flicker 0.1s infinite alternate;
+            display: none;
+            mix-blend-mode: normal;
+            transform-origin: bottom center;
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: scale(1) translateX(-1px) skewX(2deg);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.1) translateX(1px) skewX(-2deg);
+                opacity: 1;
+            }
+        }
+
+        /* Drop Animation */
+        .drop {
+            position: absolute;
+            width: 6px;
+            height: 10px;
+            background: rgba(56, 189, 248, 0.8);
+            border-radius: 50%;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            z-index: 20;
+        }
+
+        @keyframes dropFall {
+            0% {
+                top: -20px;
+                opacity: 1;
+                height: 10px;
+            }
+
+            90% {
+                height: 12px;
+            }
+
+            100% {
+                top: 70px;
+                opacity: 0;
+                height: 4px;
+            }
+        }
+
+        /* --- BEAKER STYLE --- */
+        .beaker-container {
+            width: 50px;
+            height: 60px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+            border-left: 2px solid rgba(255, 255, 255, 0.7);
+            border-right: 2px solid rgba(255, 255, 255, 0.7);
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            position: relative;
+            border-radius: 2px 2px 5px 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .beaker-container::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: -6px;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+            transform: skewX(20deg) rotate(-10deg);
+            border-radius: 0 0 0 5px;
+        }
+
+        .beaker-liquid {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            right: 2px;
+            height: 40px;
+            background: rgba(200, 240, 255, 0.4);
+            border-radius: 0 0 3px 3px;
+        }
+
+        .graduation-mark {
+            position: absolute;
+            right: 2px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.5);
+            width: 8px;
+        }
+
+        /* Reagent Bottle Style */
+        .bottle-reagent {
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(to right, rgba(165, 42, 42, 0.4), rgba(165, 42, 42, 0.7), rgba(165, 42, 42, 0.4));
+            border: 1px solid rgba(165, 42, 42, 0.8);
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .bottle-reagent::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 10px;
+            background: inherit;
+            border: 1px solid rgba(165, 42, 42, 0.8);
+        }
+
+        .bottle-reagent::after {
+            content: '';
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 12px;
+            background: #475569;
+            border-radius: 2px;
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2);
+        }
+
+        .label-sticker {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 2px 2px;
+            font-size: 9px;
+            font-weight: bold;
+            color: #000;
+            border: 1px solid #ccc;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            font-family: 'Merriweather', serif;
+            text-align: center;
+            width: 85%;
+            line-height: 1.1;
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #334155;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 50;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid #475569;
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        /* Modal Boxes */
+        .modal-box {
+            position: fixed;
+            background: rgba(15, 23, 42, 0.98);
+            color: white;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: none;
+            z-index: 100;
+            animation: fadeIn 0.3s ease-out;
+            max-width: 600px;
+            width: 90%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-box::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        .modal-box::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+
+        /* Nút bấm hiện trên chậu (NEW) */
+        .btn-mo-rong {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            font-family: Arial, sans-serif;
+            white-space: nowrap;
+            font-size: 10px;
+            margin-top: 5px;
+            z-index: 100;
+        }
+
+        .btn-mo-rong:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal (Bảng thông tin) (NEW) */
+        #modal-kien-thuc {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .modal-content {
+            background: white;
+            width: 500px;
+            max-width: 90%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: slideDown 0.4s ease;
+            color: #333;
+        }
+
+        .modal-header {
+            background: #007bff;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 20px;
+        }
+
+        .modal-body {
+            padding: 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+            max-height: 60vh;
+            /* Cho phép cuộn nếu nội dung dài */
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 15px;
+            background: #f1f1f1;
+            text-align: center;
+        }
+
+        .btn-link {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-link:hover {
+            background: #218838;
+        }
+
+        /* Hiệu ứng động (NEW) */
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* --- GAMIFICATION & NOMENCLATURE STYLES --- */
+        .challenge-launch-btn {
+            /* Modified to fit relative positioning in container */
+            background: linear-gradient(45deg, #FF512F, #DD2476);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 25px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(221, 36, 118, 0.5);
+            animation: pulse 2s infinite;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+        }
+
+        .challenge-launch-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Style cho nút mở bảng danh pháp */
+        .btn-tool-style {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: sans-serif;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-tool-style:hover {
+            transform: translateY(-2px);
+            background: #357ABD;
+        }
+
+        /* Overlay che màn hình cho Danh pháp */
+        .nomenclature-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Thẻ chứa bảng */
+        .nomenclature-card {
+            background: white;
+            width: 800px;
+            max-width: 95%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #00C6FF, #0072FF);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        /* Bảng dữ liệu */
+        .iupac-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .iupac-table th,
+        .iupac-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .iupac-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .iupac-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .iupac-table tr:hover {
+            background-color: #e6f7ff;
+        }
+
+        /* Cột đặc biệt */
+        .symbol-col {
+            font-weight: bold;
+            color: #D32F2F;
+            text-align: center;
+        }
+
+        .en-col,
+        .base-col {
+            font-weight: 500;
+            color: #0056b3;
+        }
+
+        /* Nút loa */
+        .speaker-icon {
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 8px;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+
+        .speaker-icon:hover {
+            transform: scale(1.3);
+        }
+
+        .quiz-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .quiz-card {
+            background: #1e293b;
+            color: white;
+            padding: 30px;
+            width: 600px;
+            max-width: 90%;
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        .intro-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: 1px solid #334155;
+        }
+
+        .neon-text {
+            color: #38bdf8;
+            text-shadow: 0 0 10px #38bdf8;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 12px;
+            background: #334155;
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .action-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.02);
+            background: #2563eb;
+        }
+
+        .save-btn {
+            background: #10b981;
+        }
+
+        .restart-btn {
+            background: #f59e0b;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .opt-btn {
+            background: #334155;
+            border: 1px solid #475569;
+            color: #e2e8f0;
+            padding: 15px;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .opt-btn:hover:not(:disabled) {
+            background: #475569;
+            border-color: #38bdf8;
+        }
+
+        .opt-btn.correct {
+            background: #065f46;
+            border-color: #34d399;
+            color: white;
+        }
+
+        .opt-btn.wrong {
+            background: #7f1d1d;
+            border-color: #f87171;
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #334155;
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar div {
+            height: 100%;
+            background: #38bdf8;
+            transition: width 0.5s;
+            border-radius: 3px;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .msg-correct {
+            color: #34d399;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .msg-wrong {
+            color: #f87171;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .score-circle {
+            font-size: 60px;
+            font-weight: bold;
+            color: #facc15;
+            text-shadow: 0 0 20px rgba(250, 204, 21, 0.5);
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .center-align {
+            text-align: center;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+
+        .close-btn-text {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(221, 36, 118, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(221, 36, 118, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(221, 36, 118, 0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen flex flex-row p-0 gap-0">
+    <!-- AUDIO ELEMENTS -->
+    <audio id="bgMusic" loop></audio>
+    <!-- LEFT PANEL (Experiment Area) -->
+    <div class="w-3/4 flex flex-col h-full relative experiment-panel p-6">
+
+        <!-- Header Controls -->
+        <div class="flex justify-between items-center px-6 pt-4 pb-2 shrink-0 relative w-full">
+            <!-- Left: Guide, Video (Compact size) -->
+            <div class="flex gap-2 w-auto items-center z-10 absolute left-6">
+                <button onclick="toggleModal('guideModal')"
+                    class="flex items-center gap-1 bg-blue-600 text-white px-2 py-1.5 rounded shadow hover:bg-blue-500 btn-3d text-[10px] font-bold border-blue-800">
+                    <i data-lucide="book-open" class="w-3 h-3"></i>
+                    <span>HƯỚNG DẪN</span>
+                </button>
+                <a href="https://www.youtube.com/watch?v=GEsimtIhcvI&feature=youtu.be" target="_blank"
+                    class="flex items-center gap-1 bg-pink-600 text-white px-2 py-1.5 rounded shadow hover:bg-pink-500 btn-3d text-[10px] font-bold border-pink-800 no-underline transition-colors">
+                    <i data-lucide="video" class="w-3 h-3"></i>
+                    <span>VIDEO THỰC TẾ</span>
+                </a>
+            </div>
+
+            <!-- Center: Title -->
+            <div class="absolute left-[55%] transform -translate-x-1/2 text-center w-auto top-6">
+                <!-- UPDATED TITLE COLOR FOR LIGHT BACKGROUND -->
+                <h1
+                    class="text-2xl md:text-3xl font-bold text-slate-800 uppercase tracking-wider drop-shadow-sm leading-tight whitespace-nowrap">
+                    TÍNH CHẤT HÓA HỌC<br>CỦA KIM LOẠI KIỀM
+                </h1>
+                <p class="text-xs text-slate-600 font-medium mt-1">Mô phỏng phản ứng với nước (H<sub>2</sub>O)</p>
+
+                <!-- CONTACT INFO WITH BUTTONS -->
+                <div class="flex flex-col items-center gap-1 mt-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] text-indigo-700 font-bold italic">GV: Phạm Thị Hải - THCS Cầu Giấy B,
+                            Phường Cầu Giấy, Hà Nội</span>
+                        <a href="https://web.facebook.com/share/1KZzmHBx1p/?mibextid=wwXIfr&_rdc=1&_rdr" target="_blank"
+                            class="flex items-center gap-1 bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-0.5 rounded shadow btn-3d text-[9px] font-bold border-indigo-800 no-underline transition-colors">
+                            <i data-lucide="facebook" class="w-3 h-3"></i>
+                            <span>Thông tin liên hệ</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Safety -->
+            <div class="flex gap-2 w-auto justify-end z-10 absolute right-6">
+                <button id="btnSafety" onclick="toggleModal('safetyModal')"
+                    class="flex items-center gap-2 bg-red-600 text-white px-3 py-1.5 rounded shadow hover:bg-red-500 btn-3d text-sm font-bold border-red-800 animate-pulse">
+                    <i data-lucide="triangle-alert" class="w-4 h-4"></i>
+                    <span>AN TOÀN</span>
+                </button>
+            </div>
+        </div>
+        <!-- MAIN BODY - Split into Sidebar and Stage -->
+        <div class="flex-grow flex flex-row relative overflow-hidden">
+
+            <!-- 1. SIDEBAR CONTROLS (Left - 250px width) -->
+            <div
+                class="w-[250px] shrink-0 flex flex-col gap-3 p-4 z-20 overflow-y-auto border-r border-slate-300 bg-white/20 backdrop-blur-sm">
+
+                <div
+                    class="text-xs font-bold text-teal-700 mb-1 ml-1 uppercase tracking-wide border-b border-teal-300 pb-1 w-full text-center">
+                    Phương trình & Kiến Thức</div>
+
+                <div class="flex flex-col gap-2">
+                    <div class="flex gap-1 w-full">
+                        <button onclick="showEquation(0)"
+                            class="btn-3d w-full bg-gradient-to-r from-gray-600 to-gray-500 border-gray-700 text-white py-2 px-3 rounded-lg text-xs text-left pl-3 flex items-center gap-2 hover:brightness-110 shadow-lg">
+                            <div class="w-2 h-2 shrink-0 rounded-full bg-gray-400 shadow-inner"></div>
+                            <span class="chemical-font font-bold">Li + H<sub>2</sub>O</span>
+                        </button>
+                        <button onclick="showKnowledge('Li_Prop')"
+                            class="bg-teal-700 hover:bg-teal-600 text-white w-10 rounded-r-lg border-y border-r border-teal-500 flex items-center justify-center btn-3d shadow-lg"
+                            title="Kiến thức Li">
+                            <i data-lucide="book" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-1 w-full">
+                        <button onclick="showEquation(1)"
+                            class="btn-3d w-full bg-gradient-to-r from-slate-500 to-slate-400 border-slate-600 text-white py-2 px-3 rounded-lg text-xs text-left pl-3 flex items-center gap-2 hover:brightness-110 shadow-lg">
+                            <div class="w-2 h-2 shrink-0 rounded-full bg-slate-200 shadow-inner"></div>
+                            <span class="chemical-font font-bold">Na + H<sub>2</sub>O</span>
+                        </button>
+                        <button onclick="showKnowledge('Na_Prop')"
+                            class="bg-teal-700 hover:bg-teal-600 text-white w-10 rounded-r-lg border-y border-r border-teal-500 flex items-center justify-center btn-3d shadow-lg"
+                            title="Kiến thức Na">
+                            <i data-lucide="book" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-1 w-full">
+                        <button onclick="showEquation(2)"
+                            class="btn-3d w-full bg-gradient-to-r from-zinc-500 to-zinc-400 border-zinc-600 text-white py-2 px-3 rounded-lg text-xs text-left pl-3 flex items-center gap-2 hover:brightness-110 shadow-lg">
+                            <div class="w-2 h-2 shrink-0 rounded-full bg-slate-300 shadow-inner"></div>
+                            <span class="chemical-font font-bold">K + H<sub>2</sub>O</span>
+                        </button>
+                        <button onclick="showKnowledge('K_Prop')"
+                            class="bg-teal-700 hover:bg-teal-600 text-white w-10 rounded-r-lg border-y border-r border-teal-500 flex items-center justify-center btn-3d shadow-lg"
+                            title="Kiến thức K">
+                            <i data-lucide="book" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-1 w-full">
+                        <button onclick="showEquation(3)"
+                            class="btn-3d w-full bg-gradient-to-r from-stone-500 to-stone-400 border-stone-600 text-white py-2 px-3 rounded-lg text-xs text-left pl-3 flex items-center gap-2 hover:brightness-110 shadow-lg">
+                            <div class="w-2 h-2 shrink-0 rounded-full bg-slate-300 shadow-inner"></div>
+                            <span class="chemical-font font-bold">Rb + H<sub>2</sub>O</span>
+                        </button>
+                        <button onclick="showKnowledge('Rb_Prop')"
+                            class="bg-teal-700 hover:bg-teal-600 text-white w-10 rounded-r-lg border-y border-r border-teal-500 flex items-center justify-center btn-3d shadow-lg"
+                            title="Kiến thức Rb">
+                            <i data-lucide="book" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-1 w-full">
+                        <button onclick="showEquation(4)"
+                            class="btn-3d w-full bg-gradient-to-r from-yellow-700 to-yellow-600 border-yellow-800 text-white py-2 px-3 rounded-lg text-xs text-left pl-3 flex items-center gap-2 hover:brightness-110 shadow-lg">
+                            <div class="w-2 h-2 shrink-0 rounded-full bg-yellow-200 shadow-inner"></div>
+                            <span class="chemical-font font-bold">Cs + H<sub>2</sub>O</span>
+                        </button>
+                        <button onclick="showKnowledge('Cs_Prop')"
+                            class="bg-teal-700 hover:bg-teal-600 text-white w-10 rounded-r-lg border-y border-r border-teal-500 flex items-center justify-center btn-3d shadow-lg"
+                            title="Kiến thức Cs">
+                            <i data-lucide="book" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="w-full h-px bg-slate-400 my-1"></div>
+                <div
+                    class="text-xs font-bold text-blue-700 mb-1 ml-1 uppercase tracking-wide border-b border-blue-300 pb-1 w-full text-center">
+                    Củng cố, luyện tập</div>
+
+                <div id="sidebar-extras" class="flex flex-col gap-2 w-full mt-1">
+                    <!-- Nút Danh Pháp và Thử Thách sẽ được thêm vào đây bằng JS -->
+                    <button onclick="openTeacherModal()"
+                        class="btn-tool-style w-full mt-2 bg-emerald-700 hover:bg-emerald-600 border-emerald-800 shadow-emerald-900/50 flex items-center justify-center gap-2">
+                        👨‍🏫 DÀNH CHO GIÁO VIÊN
+                    </button>
+                </div>
+                <div class="w-full h-px bg-slate-400 my-1"></div>
+                <div
+                    class="text-xs font-bold text-purple-700 mb-1 ml-1 uppercase tracking-wide border-b border-purple-300 pb-1 w-full text-center">
+                    Ứng Dụng Chuyên Sâu</div>
+
+                <div class="grid grid-cols-1 gap-2 mb-2">
+                    <button onclick="showKnowledge('Li')"
+                        class="bg-purple-600 hover:bg-purple-500 text-white py-2 px-3 rounded shadow btn-3d text-xs font-bold border-purple-800 flex items-center justify-between">
+                        <span>Ứng dụng Li</span> <i data-lucide="microscope" class="w-3 h-3"></i>
+                    </button>
+                    <button onclick="showKnowledge('Na')"
+                        class="bg-purple-600 hover:bg-purple-500 text-white py-2 px-3 rounded shadow btn-3d text-xs font-bold border-purple-800 flex items-center justify-between">
+                        <span>Ứng dụng Na</span> <i data-lucide="microscope" class="w-3 h-3"></i>
+                    </button>
+                    <button onclick="showKnowledge('K')"
+                        class="bg-purple-600 hover:bg-purple-500 text-white py-2 px-3 rounded shadow btn-3d text-xs font-bold border-purple-800 flex items-center justify-between">
+                        <span>Ứng dụng K</span> <i data-lucide="microscope" class="w-3 h-3"></i>
+                    </button>
+                    <button onclick="showKnowledge('Rb')"
+                        class="bg-purple-600 hover:bg-purple-500 text-white py-2 px-3 rounded shadow btn-3d text-xs font-bold border-purple-800 flex items-center justify-between">
+                        <span>Ứng dụng Rb</span> <i data-lucide="microscope" class="w-3 h-3"></i>
+                    </button>
+                    <button onclick="showKnowledge('Cs')"
+                        class="bg-purple-600 hover:bg-purple-500 text-white py-2 px-3 rounded shadow btn-3d text-xs font-bold border-purple-800 flex items-center justify-between">
+                        <span>Ứng dụng Cs</span> <i data-lucide="microscope" class="w-3 h-3"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- 2. EXPERIMENT STAGE (Center/Right) -->
+            <div class="flex-grow flex flex-col justify-end relative pb-4 px-4 overflow-hidden">
+                <!-- Tubes Container -->
+                <div id="tubesContainer" class="flex justify-center gap-8 items-end mb-8 w-full">
+                    <!-- Tubes injected by JS -->
+                </div>
+                <!-- Equation Display Area - UPDATED BACKGROUND -->
+                <div
+                    class="mt-4 h-20 w-full flex items-center justify-center bg-white/60 rounded-xl backdrop-blur-sm border border-slate-400/30 mx-auto max-w-2xl shadow-xl shrink-0">
+                    <div id="equationDisplay"
+                        class="chemical-font text-3xl text-indigo-900 font-bold drop-shadow-sm tracking-wider min-h-[40px]">
+                        <!-- Equation Text -->
+                    </div>
+                </div>
+
+                <!-- Popups (Absolute over this area) -->
+                <div id="csExplanation"
+                    class="fixed top-[20%] right-[30%] bg-red-900/95 text-white p-5 rounded-xl border border-red-500 shadow-2xl z-50 hidden max-w-sm">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-red-500 p-2 rounded-full shadow-lg shrink-0">
+                            <i data-lucide="bomb" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2 text-white border-b border-red-400 pb-1">VỠ ỐNG NGHIỆM!
+                            </h4>
+                            <p class="text-sm leading-relaxed text-red-50 mb-3">
+                                Phản ứng của <strong>Cesium (Cs)</strong> tỏa nhiệt cực lớn (H<sub>2</sub> bắt lửa ngay
+                                lập tức) gây nổ hơi và sóng xung kích mạnh làm vỡ thủy tinh.
+                            </p>
+                            <div class="flex gap-2">
+                                <button onclick="document.getElementById('csExplanation').style.display='none'"
+                                    class="text-xs bg-white text-red-900 font-bold px-3 py-1.5 rounded hover:bg-gray-200">Đóng</button>
+                                <button onclick="showKnowledge('Cs')"
+                                    class="text-xs bg-red-700 text-white font-bold px-3 py-1.5 rounded hover:bg-red-600 border border-white/30">Xem
+                                    ứng dụng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="rbExplanation"
+                    class="fixed top-[20%] right-[30%] bg-orange-900/95 text-white p-5 rounded-xl border border-orange-500 shadow-2xl z-50 hidden max-w-sm">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-orange-500 p-2 rounded-full shadow-lg shrink-0">
+                            <i data-lucide="triangle-alert" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2 text-white border-b border-orange-400 pb-1">NGUY HIỂM!
+                            </h4>
+                            <p class="text-sm leading-relaxed text-orange-50 mb-3">
+                                Phản ứng của <strong>Rubidium (Rb)</strong> cực kỳ mãnh liệt, gây nổ nhẹ và bắn tung
+                                tóe. Có nguy cơ làm vỡ ống nghiệm nếu không được che chắn.
+                            </p>
+                            <div class="flex gap-2">
+                                <button onclick="document.getElementById('rbExplanation').style.display='none'"
+                                    class="text-xs bg-white text-orange-900 font-bold px-3 py-1.5 rounded hover:bg-gray-200">Đóng</button>
+                                <button onclick="showKnowledge('Rb')"
+                                    class="text-xs bg-orange-700 text-white font-bold px-3 py-1.5 rounded hover:bg-orange-600 border border-white/30">Xem
+                                    ứng dụng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Guide Modal -->
+            <div id="guideModal" class="modal-box">
+                <div
+                    class="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center sticky top-0 z-10">
+                    <h3 class="text-xl font-bold text-blue-400 flex items-center gap-2"><i
+                            data-lucide="clipboard-list"></i> QUY TRÌNH THỰC HIỆN THÍ NGHIỆM</h3>
+                    <button onclick="toggleModal('guideModal')" class="text-gray-400 hover:text-white"><i
+                            data-lucide="x"></i></button>
+                </div>
+                <div class="p-6 space-y-4 text-slate-200 text-sm overflow-y-auto max-h-[70vh]">
+
+                    <!-- Step 1 -->
+                    <div class="bg-slate-700/30 p-3 rounded-lg border border-slate-600 flex gap-3">
+                        <div class="text-2xl select-none">📖</div>
+                        <div>
+                            <h4 class="text-base font-bold text-sky-300 mb-1">Bước 1: Đọc hướng dẫn</h4>
+                            <p class="text-slate-300">Nắm rõ trình tự thao tác trên phần mềm trước khi bắt đầu.</p>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="bg-slate-700/30 p-3 rounded-lg border border-slate-600 flex gap-3">
+                        <div class="text-2xl select-none">🦺</div>
+                        <div>
+                            <h4 class="text-base font-bold text-sky-300 mb-1">Bước 2: Đọc quy tắc an toàn</h4>
+                            <p class="text-slate-300">Nhấn nút <span class="font-bold text-red-400">'AN TOÀN'</span>
+                                (góc trên phải) để nắm vững quy định phòng thí nghiệm.</p>
+                        </div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="bg-slate-700/30 p-3 rounded-lg border border-slate-600 flex gap-3">
+                        <div class="text-2xl select-none">🎬</div>
+                        <div>
+                            <h4 class="text-base font-bold text-sky-300 mb-1">Bước 3: Xem video thực tế</h4>
+                            <p class="text-slate-300">Nhấn nút <span class="font-bold text-pink-400">'VIDEO THỰC
+                                    TẾ'</span> (góc trên trái) để quan sát 5 kim loại ngoài đời thực.</p>
+                        </div>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="bg-slate-700/30 p-3 rounded-lg border border-slate-600 flex gap-3">
+                        <div class="text-2xl select-none">🧪</div>
+                        <div>
+                            <h4 class="text-base font-bold text-sky-300 mb-1">Bước 4: Tiến hành thí nghiệm</h4>
+                            <ul class="list-decimal pl-4 space-y-1 text-slate-300">
+                                <li>Click vào bình <strong>Nước</strong> (đổ nước vào chậu).</li>
+                                <li>Click vào lọ <strong>Phenolphthalein</strong> (thêm chất chỉ thị).</li>
+                                <li>Chọn kim loại thả vào từng chậu.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Step 5 -->
+                    <div class="bg-slate-700/30 p-3 rounded-lg border border-slate-600 flex gap-3">
+                        <div class="text-2xl select-none">🔍</div>
+                        <div>
+                            <h4 class="text-base font-bold text-sky-300 mb-1">Bước 5: Quan sát & Phân tích</h4>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-300">
+                                <li><strong>Hiện tượng:</strong> Xem đổi màu và sủi bọt khí.</li>
+                                <li><strong>Phương trình:</strong> Xem cân bằng phản ứng (cột trái).</li>
+                                <li><strong>Video:</strong> Xem phản ứng thực tế tại mỗi ống nghiệm.</li>
+                                <li><strong>Kiến thức:</strong> Bấm nút 'Kiến thức' xuất hiện sau phản ứng để đọc giải
+                                    thích chi tiết.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Step 6 -->
+                    <div class="bg-slate-700/30 p-3 rounded-lg border border-slate-600 flex gap-3">
+                        <div class="text-2xl select-none">🚧</div>
+                        <div>
+                            <h4 class="text-base font-bold text-sky-300 mb-1">Bước 6: Lồng kính an toàn</h4>
+                            <p class="text-slate-300">Với <strong>Rb</strong> và <strong>Cs</strong>, hệ thống tự động
+                                hạ lồng kính bảo vệ do phản ứng gây nổ mạnh.</p>
+                        </div>
+                    </div>
+                    <!-- Step 7 -->
+                    <div class="bg-slate-700/30 p-3 rounded-lg border border-slate-600 flex gap-3">
+                        <div class="text-2xl select-none">📚</div>
+                        <div>
+                            <h4 class="text-base font-bold text-sky-300 mb-1">Bước 7: Khám phá & Kiểm tra</h4>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-300">
+                                <li>Xem <strong>'Ứng dụng'</strong> thực tiễn (menu trái).</li>
+                                <li>Tra cứu <strong>'Danh pháp IUPAC'</strong>.</li>
+                                <li>Hoàn thành bài <strong>'Thử Thách'</strong> để lên cấp.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-rose-900/20 p-3 rounded border border-rose-500/30 text-center italic text-rose-300 text-xs mt-4">
+                        💡 Bấm nút <strong>LÀM LẠI</strong> để bắt đầu phiên thí nghiệm mới.
+                    </div>
+                </div>
+            </div>
+            <!-- Safety Rules Modal -->
+            <div id="safetyModal" class="modal-box">
+                <div
+                    class="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center sticky top-0 z-10">
+                    <h3 class="text-xl font-bold text-emerald-400 flex items-center gap-2"><i
+                            data-lucide="shield-check"></i> QUY ĐỊNH AN TOÀN CHUNG</h3>
+                    <button onclick="toggleModal('safetyModal')" class="text-gray-400 hover:text-white"><i
+                            data-lucide="x"></i></button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="bg-white/5 p-3 rounded border border-white/10">
+                        <h4 class="text-emerald-300 font-bold text-sm mb-2 uppercase">1. Quy tắc cơ bản</h4>
+                        <ul class="space-y-2 text-sm text-slate-200">
+                            <li class="flex items-start gap-2"><i data-lucide="glasses"
+                                    class="text-emerald-400 w-4 h-4 mt-0.5"></i> Luôn đeo kính bảo hộ và găng tay cao
+                                su.</li>
+                            <li class="flex items-start gap-2"><i data-lucide="hand-metal"
+                                    class="text-emerald-400 w-4 h-4 mt-0.5"></i> Tuyệt đối không cầm kim loại bằng tay
+                                trần.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-900/30 p-3 rounded border border-red-500/50">
+                        <h4 class="text-red-400 font-bold text-sm mb-2 uppercase flex items-center gap-2"><i
+                                data-lucide="triangle-alert" class="w-4 h-4"></i> 2. CẢNH BÁO NGUY HIỂM (Rb & Cs)</h4>
+                        <ul class="space-y-2 text-sm text-red-100">
+                            <li>⚠️ Nguy cơ cháy nổ cực cao.</li>
+                        </ul>
+                    </div>
+                    <!-- New Safety Rule (UPDATED TEXT) -->
+                    <div class="bg-yellow-900/30 p-3 rounded border border-yellow-500/50">
+                        <h4 class="text-yellow-400 font-bold text-sm mb-2 uppercase flex items-center gap-2"><i
+                                data-lucide="ban" class="w-4 h-4"></i> 3. CẤM TUYỆT ĐỐI</h4>
+                        <ul class="space-y-2 text-sm text-yellow-100">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="alert-octagon" class="w-4 h-4 mt-0.5 text-yellow-500"></i>
+                                <span>Tuyệt đối <strong>không tự ý</strong> lấy hoá chất bỏ vào thau chậu, bồn rửa hoặc
+                                    bồn vệ sinh.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="dollar-sign" class="w-4 h-4 mt-0.5 text-yellow-500"></i>
+                                <span>Hành vi này gây mất an toàn nghiêm trọng (cháy nổ thau chậu, bồn rửa hoặc bồn vệ
+                                    sinh) và người vi phạm phải <strong>bồi thường toàn bộ chi phí</strong> phục hồi cơ
+                                    sở vật chất.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- DEEP KNOWLEDGE MODAL -->
+            <div id="knowledgeModal" class="modal-box">
+                <div
+                    class="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center sticky top-0 z-10">
+                    <h3 id="knowTitle" class="text-xl font-bold text-yellow-400 flex items-center gap-2">
+                        <i data-lucide="book-open-check"></i> THÔNG TIN CHI TIẾT
+                    </h3>
+                    <button onclick="toggleModal('knowledgeModal')" class="text-gray-400 hover:text-white"><i
+                            data-lucide="x"></i></button>
+                </div>
+                <div id="knowContent"
+                    class="p-6 space-y-4 text-slate-200 text-sm leading-relaxed max-h-[70vh] overflow-y-auto">
+                    <!-- Content injected via JS -->
+                </div>
+            </div>
+            <!-- TEACHER MODAL (NEW) -->
+            <div id="teacherModal" class="modal-box">
+                <div
+                    class="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center sticky top-0 z-10">
+                    <h3 class="text-xl font-bold text-emerald-400 flex items-center gap-2">
+                        👨‍🏫 GỬI BÁO CÁO KẾT QUẢ
+                    </h3>
+                    <button onclick="toggleModal('teacherModal')" class="text-gray-400 hover:text-white"><i
+                            data-lucide="x"></i></button>
+                </div>
+                <div class="p-6 space-y-4 text-slate-200 text-sm">
+                    <p>Kết quả bài làm được <strong>tự động</strong> lưu vào bảng tổng hợp Google Sheets và gửi email
+                        thông báo tới giáo viên ngay khi học sinh hoàn thành bài Thử Thách.</p>
+                    <p id="teacher-submit-status" class="text-xs text-slate-400 italic"></p>
+                    <div
+                        class="bg-yellow-900/20 p-3 rounded border border-yellow-600/30 text-[10px] text-yellow-200 italic">
+                        ⚠️ Nếu việc gửi tự động bị lỗi (mất mạng...), hãy bấm nút bên dưới để gửi lại.
+                    </div>
+                    <button onclick="sendReportToTeacher()" id="btn-send-report"
+                        class="action-btn bg-emerald-600 hover:bg-emerald-500 w-full flex justify-center items-center gap-2 font-bold py-3">
+                        <i data-lucide="send"></i> GỬI LẠI KẾT QUẢ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- RIGHT PANEL (Tools) -->
+    <div class="w-1/4 flex flex-col gap-4 tool-panel p-6 shadow-2xl z-30">
+        <!-- Chemicals Section -->
+        <div class="bg-black/20 rounded-2xl p-4 flex-none flex flex-col border border-indigo-400/30">
+            <h3
+                class="text-indigo-200 font-bold uppercase text-xs border-b border-indigo-500/50 pb-2 mb-4 flex items-center gap-2 tracking-widest">
+                <i data-lucide="flask-conical" class="w-4 h-4"></i> Hóa chất
+            </h3>
+            <div class="flex justify-around items-end mb-4">
+                <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform group"
+                    onclick="addWater()">
+                    <div class="beaker-container">
+                        <div class="beaker-liquid"></div>
+                        <div class="graduation-mark" style="bottom: 10px;"></div>
+                        <div class="graduation-mark" style="bottom: 20px; width: 12px;"></div>
+                    </div>
+                    <span class="mt-3 text-xs text-indigo-100 font-bold bg-indigo-900/50 px-2 py-1 rounded">Nước
+                        (H<sub>2</sub>O)</span>
+                </div>
+                <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform group"
+                    onclick="addPhenolphthalein()">
+                    <div class="bottle-reagent">
+                        <div class="label-sticker text-pink-900 border-pink-300 bg-pink-50">P.P<div
+                                class="text-[6px] font-normal text-gray-600">Phenol phtalein</div>
+                        </div>
+                    </div>
+                    <span class="mt-3 text-xs text-indigo-100 font-bold bg-indigo-900/50 px-2 py-1 rounded">Chỉ thị
+                        màu</span>
+                </div>
+            </div>
+        </div>
+        <!-- Metals Section -->
+        <div class="bg-black/20 rounded-2xl p-4 flex-grow border border-indigo-400/30 flex flex-col">
+            <h3
+                class="text-indigo-200 font-bold uppercase text-xs border-b border-indigo-500/50 pb-2 mb-4 flex items-center gap-2 tracking-widest">
+                <i data-lucide="layers" class="w-4 h-4"></i> Mẫu Kim Loại
+            </h3>
+            <div class="grid grid-cols-2 gap-4 flex-grow content-start">
+                <button onclick="selectMetal('Li')"
+                    class="btn-3d bg-slate-600 p-2 rounded-lg flex flex-col items-center border-slate-800 hover:bg-slate-500 group relative">
+                    <div
+                        class="w-10 h-8 bg-gradient-to-br from-gray-700 to-black rounded-[40%_60%_50%_50%] shadow-lg mb-2 border border-gray-600">
+                    </div>
+                    <span class="font-bold text-gray-200">Li</span>
+                </button>
+                <button onclick="selectMetal('Na')"
+                    class="btn-3d bg-slate-500 p-2 rounded-lg flex flex-col items-center border-slate-700 hover:bg-slate-400 group">
+                    <div
+                        class="w-8 h-8 bg-gradient-to-br from-gray-100 to-gray-400 rounded shadow-lg mb-2 border border-white/50">
+                    </div>
+                    <span class="font-bold text-white">Na</span>
+                </button>
+                <button onclick="selectMetal('K')"
+                    class="btn-3d bg-slate-500 p-2 rounded-lg flex flex-col items-center border-slate-700 hover:bg-slate-400 group">
+                    <div
+                        class="w-9 h-9 bg-gradient-to-br from-gray-300 to-gray-500 rounded-full shadow-lg mb-2 border border-gray-400">
+                    </div>
+                    <span class="font-bold text-white">K</span>
+                </button>
+                <button onclick="selectMetal('Rb')"
+                    class="btn-3d bg-slate-500 p-2 rounded-lg flex flex-col items-center border-slate-700 hover:bg-slate-400 group">
+                    <div
+                        class="w-8 h-8 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg transform rotate-12 shadow-lg mb-2 border border-gray-300">
+                    </div>
+                    <span class="font-bold text-white">Rb</span>
+                </button>
+                <button onclick="selectMetal('Cs')"
+                    class="btn-3d bg-slate-600 p-2 rounded-lg flex flex-col items-center border-slate-800 hover:bg-slate-500 group col-span-2">
+                    <div
+                        class="w-8 h-8 bg-gradient-to-br from-yellow-200 via-yellow-400 to-yellow-600 rounded-full shadow-lg mb-2 border border-yellow-200 shadow-yellow-500/20">
+                    </div>
+                    <span class="font-bold text-yellow-200">Cs</span>
+                </button>
+            </div>
+        </div>
+        <button onclick="resetExperiment()"
+            class="btn-3d bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 px-6 rounded-xl flex justify-center items-center gap-2 shadow-lg border-rose-800 w-full mt-auto">
+            <i data-lucide="rotate-ccw" class="w-5 h-5"></i> LÀM LẠI
+        </button>
+    </div>
+    <!-- TOAST -->
+    <div id="toast"></div>
+    <script>
+        lucide.createIcons();
+        // 1. Dữ liệu & Nội dung (NEW)
+        const duLieuThiNghiem = {
+            "Li": {
+                ten: "Lithium (Li)",
+                noiDung: `
+                    <p><strong>Hiện tượng:</strong> Lithi phản ứng êm dịu, nổi trên mặt nước. Khí H₂ thoát ra làm kim loại di chuyển nhẹ.</p>
+                    <p><strong>Giải thích:</strong> Phản ứng tạo LiOH (base mạnh) nhưng yếu nhất nhóm IA.</p>
+                    <ul style="text-align: left; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                        <li>pH < 8.2: Không màu</li>
+                        <li>8.2 ≤ pH ≤ 10: <strong>Màu hồng nhạt</strong></li>
+                        <li>pH > 10: Hồng đậm</li>
+                    </ul>
+                    <p><em>Kết luận:</em> Do tính kiềm yếu hơn các kim loại khác, phenolphthalein chỉ chuyển màu hồng nhạt.</p>
+                `,
+                link: "https://drive.google.com/file/d/1TGTjDVwxwx7jqFqahb4clloXExm9vFRr/view?usp=sharing",
+                nhacNen: "https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3" // Âm thanh nhẹ
+            },
+            "Na": {
+                ten: "Sodium (Na)",
+                noiDung: `
+                    <p><strong>Hiện tượng:</strong> Natri nóng chảy thành giọt tròn bạc chạy trên mặt nước. Phản ứng mãnh liệt, tỏa nhiệt lớn.</p>
+                    <p><strong>Cơ chế:</strong> Na + H₂O → NaOH + H₂.</p>
+                    <ul style="text-align: left; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                        <li>Dung dịch tạo thành: NaOH (pH ≈ 13–14)</li>
+                        <li>Phenolphthalein: Chuyển từ không màu sang <strong>hồng đậm</strong>.</li>
+                    </ul>
+                `,
+                link: "https://drive.google.com/file/d/1N4mJjT82OMApMtLNEBav5VcozUSPjtqQ/view?usp=sharing",
+                nhacNen: "https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3"
+            },
+            "K": {
+                ten: "Potassium (K)",
+                noiDung: `
+                    <p><strong>Hiện tượng:</strong> Phản ứng mãnh liệt hơn Na, tỏa nhiệt nhiều làm khí H₂ tự bốc cháy với ngọn lửa màu tím.</p>
+                    <p><strong>Cơ chế:</strong> K khử nước, tạo ion OH⁻ nhanh chóng.</p>
+                    <ul style="text-align: left; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                        <li>Sản phẩm: KOH (pH ≈ 13–14)</li>
+                        <li>Phenolphthalein: Chuyển sang <strong>đỏ tím hoặc hồng rất đậm</strong>.</li>
+                    </ul>
+                `,
+                link: "https://drive.google.com/file/d/1mHVMtTay2QsOUlr1IxXh4u96OpIudHnC/view?usp=sharing",
+                nhacNen: "https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3"
+            },
+            "Rb": {
+                ten: "Rubidium (Rb)",
+                noiDung: `
+                    <p><strong>Hiện tượng:</strong> Phản ứng nổ nhẹ ngay khi tiếp xúc, cực kỳ nhanh.</p>
+                    <p><strong>Giải thích:</strong> Rb có tính khử rất mạnh. Tạo dung dịch RbOH (pH 13–14).</p>
+                    <ul style="text-align: left; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                        <li>pH > 10: Màu hồng đậm/đỏ tím.</li>
+                        <li>Kết quả: Dung dịch kiềm cực mạnh, phenolphthalein đổi màu ngay lập tức.</li>
+                    </ul>
+                `,
+                link: "https://drive.google.com/file/d/1BLP2P19N34v2j5QWbVulQaT4vEZ1b5QG/view?usp=sharing",
+                nhacNen: "https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3"
+            },
+            "Cs": {
+                ten: "Cesium (Cs)",
+                noiDung: `
+                    <p><strong>Hiện tượng:</strong> Nổ tức thì cực mạnh, ngọn lửa xanh tím sáng. Nguy hiểm!</p>
+                    <p><strong>Cơ chế:</strong> Cs là kim loại hoạt động mạnh nhất. Cs nhường electron cực nhanh cho nước.</p>
+                    <ul style="text-align: left; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                        <li>Sản phẩm: CsOH (Base cực mạnh, pH ≈ 14)</li>
+                        <li>Phenolphthalein: Chuyển màu <strong>đỏ tím đậm</strong> rõ rệt nhất.</li>
+                    </ul>
+                `,
+                link: "https://drive.google.com/file/d/1FDu9471Y_9oxOFQQIXWN0s9BLwB9ytcN/view?usp=sharing",
+                nhacNen: "https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3"
+            }
+        };
+        // 2. Các hàm xử lý (Logic chính) (NEW)
+        /**
+         * Hàm tạo nút Mở rộng kiến thức
+         * @param {string} loaiHoaChat - Mã: 'Li', 'Na', 'K', 'Rb', 'Cs'
+         * @param {number} tubeIndex - Chỉ số của ống nghiệm
+         */
+        function taoNutKienThuc(loaiHoaChat, tubeIndex) {
+            const data = duLieuThiNghiem[loaiHoaChat];
+            if (!data) return;
+            // 1. Phát nhạc hiệu ứng khi nút hiện ra (Attempt to play, might be blocked)
+            // const audio = new Audio(data.nhacNen);
+            // audio.volume = 0.5;
+            // audio.play().catch(e => console.log("Trình duyệt chặn tự phát nhạc"));
+            // 2. Tạo nút bấm (Button)
+            const btn = document.createElement("button");
+            btn.innerHTML = `📚 Kiến thức: ${loaiHoaChat}`;
+            btn.className = "btn-mo-rong"; // Class để style CSS
+
+            // Xóa style vị trí tuyệt đối cũ và thêm style mới
+            btn.style.marginTop = "5px";
+            btn.style.position = "static";
+            btn.style.width = "auto";
+
+            // 3. Sự kiện click vào nút -> Hiện bảng thông tin
+            btn.onclick = () => {
+                hienBangThongTin(data);
+                // Đã xóa lệnh btn.remove() để nút không biến mất sau khi đọc
+            };
+            // Tìm wrapper của ống nghiệm và thêm nút vào
+            const tubeWrapper = document.getElementById('tube-' + tubeIndex).parentElement;
+            if (tubeWrapper) {
+                tubeWrapper.appendChild(btn);
+            }
+        }
+        /**
+         * Hàm hiển thị Modal thông tin chi tiết (NEW)
+         */
+        function hienBangThongTin(data) {
+            // Xóa modal cũ nếu có
+            const cu = document.getElementById("modal-kien-thuc");
+            if (cu) cu.remove();
+            const modal = document.createElement("div");
+            modal.id = "modal-kien-thuc";
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${data.ten} + H₂O</h2>
+                        <span class="close-btn" onclick="document.getElementById('modal-kien-thuc').remove()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        ${data.noiDung}
+                    </div>
+                    <div class="modal-footer">
+                        <a href="${data.link}" target="_blank" class="btn-link">
+                            📄 Mở Phiếu Mở Rộng Kiến Thức
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+        }
+        // KNOWLEDGE DATABASE (Updated with new HTML content for sidebar too)
+        const knowledgeData = {
+            // -------------------------------------------------------------------------
+            // 1. THẺ ỨNG DỤNG (NỘI DUNG MỚI)
+            // -------------------------------------------------------------------------
+            'Li': {
+                title: "🔋 Thẻ 01: Lithium (Li) – “Pin Nước Biển”",
+                content: `
+                   <div class="space-y-4">
+                        <div class="bg-green-900/30 p-3 rounded border border-green-500/50">
+                           <span class="text-xs font-bold text-green-400 uppercase tracking-widest">Lĩnh vực: Quốc phòng & Hải dương học</span>
+                           <h4 class="font-bold text-white text-lg mt-1 border-b border-green-500/30 pb-2 mb-2">Pin Nước Biển (Seawater Battery)</h4>
+                           <p class="text-sm text-slate-200">Công nghệ điện hóa tiên tiến sử dụng nước biển làm chất điện phân.</p>
+                       </div>
+                       <div class="bg-black/20 p-3 rounded border-l-4 border-yellow-500">
+                           <h5 class="text-yellow-400 font-bold text-sm mb-1">📌 Mở rộng kiến thức:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li><strong>Thế điện cực siêu thấp:</strong> Li có thế điện cực chuẩn thấp nhất (-3.04V), tạo hiệu điện thế cực cao cho pin.</li>
+                               <li><strong>Cơ chế chiến thuật:</strong> Khác pin thường, pin Li-seawater chỉ kích hoạt khi tiếp xúc nước biển → Cực kỳ an toàn và tiện dụng trong chiến tranh hải quân.</li>
+                               <li><strong>Tương lai xanh:</strong> Nghiên cứu ứng dụng dân dụng để tận dụng năng lượng tái tạo từ biển sâu.</li>
+                           </ul>
+                       </div>
+                       <div class="bg-blue-900/20 p-3 rounded border-l-4 border-blue-500">
+                           <h5 class="text-blue-400 font-bold text-sm mb-1">📘 Ứng dụng nâng cao:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li>Cung cấp năng lượng <strong>tự khởi động</strong> cho thiết bị cứu hộ hàng hải.</li>
+                               <li>Tích hợp trong cảm biến đáy biển (sensor) hoạt động dài ngày.</li>
+                               <li><strong>Dự án SeaBatt:</strong> Phát triển pin thay thế năng lượng mặt trời ở vùng biển sâu thiếu sáng.</li>
+                           </ul>
+                       </div>
+                   </div>`
+            },
+            'Na': {
+                title: "☢️ Thẻ 02: Natri (Na) – “Thách Thức An Toàn Hạt Nhân”",
+                content: `
+                   <div class="space-y-4">
+                        <div class="bg-yellow-900/30 p-3 rounded border border-yellow-500/50">
+                           <span class="text-xs font-bold text-yellow-400 uppercase tracking-widest">Lĩnh vực: Năng lượng Hạt nhân & An toàn</span>
+                           <h4 class="font-bold text-white text-lg mt-1 border-b border-yellow-500/30 pb-2 mb-2">Sự cố SWR (Sodium-Water Reaction)</h4>
+                           <p class="text-sm text-slate-200">Mô phỏng tương tác nổ trong lò phản ứng làm mát bằng Natri lỏng.</p>
+                       </div>
+                       <div class="bg-black/20 p-3 rounded border-l-4 border-orange-500">
+                           <h5 class="text-orange-400 font-bold text-sm mb-1">📌 Mở rộng kiến thức:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li><strong>Tại sao chọn Natri?</strong> Nhiệt dung cao, không gây áp suất lớn như nước, truyền nhiệt cực tốt.</li>
+                               <li><strong>Rủi ro:</strong> Phản ứng Na + Nước sinh nhiệt và khí Hydro → Nguy cơ nổ dây chuyền nếu tích tụ khí.</li>
+                           </ul>
+                       </div>
+                       <div class="bg-blue-900/20 p-3 rounded border-l-4 border-blue-500">
+                           <h5 class="text-blue-400 font-bold text-sm mb-1">📘 Ứng dụng nâng cao:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li>Thiết kế van an toàn, lớp cách ly và <strong>robot sửa chữa từ xa</strong>.</li>
+                               <li><strong>Mô phỏng CFD:</strong> Tính toán dòng chảy để cảnh báo sớm rò rỉ.</li>
+                               <li><strong>Dự án ASTRID (Pháp):</strong> Minh chứng tiêu biểu cho công nghệ kiểm soát sự cố SWR.</li>
+                           </ul>
+                       </div>
+                   </div>`
+            },
+            'K': {
+                title: "🧪 Thẻ 03: Kali (K) – “Máy Sấy Dung Môi & Chỉ Thị Màu”",
+                content: `
+                   <div class="space-y-4">
+                        <div class="bg-purple-900/30 p-3 rounded border border-purple-500/50">
+                           <span class="text-xs font-bold text-purple-400 uppercase tracking-widest">Lĩnh vực: Hóa dược & Tổng hợp hữu cơ</span>
+                           <h4 class="font-bold text-white text-lg mt-1 border-b border-purple-500/30 pb-2 mb-2">Hợp kim NaK - Chất làm khô siêu cấp</h4>
+                           <p class="text-sm text-slate-200">Kỹ thuật làm khô dung môi tuyệt đối (Solvent Drying) và phân tích định tính.</p>
+                       </div>
+                       <div class="bg-black/20 p-3 rounded border-l-4 border-pink-500">
+                           <h5 class="text-pink-400 font-bold text-sm mb-1">📌 Mở rộng kiến thức:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li><strong>NaK lỏng:</strong> Phản ứng cực nhanh với nước ở nhiệt độ phòng → Lý tưởng làm khô Ether, THF, Toluen.</li>
+                               <li><strong>Bảo vệ phản ứng:</strong> Loại bỏ nước để bảo vệ các phản ứng nhạy (Grignard, Wittig).</li>
+                               <li><strong>Chỉ thị màu:</strong> Hệ NaK/Benzophenone chuyển màu <strong>Xanh tím (Deep Blue)</strong> báo hiệu dung môi đã "sạch" nước.</li>
+                           </ul>
+                       </div>
+                       <div class="bg-blue-900/20 p-3 rounded border-l-4 border-blue-500">
+                           <h5 class="text-blue-400 font-bold text-sm mb-1">📘 Ứng dụng nâng cao:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li>Sử dụng trong <strong>Flow reactors</strong> (thiết bị xử lý dòng chảy liên tục).</li>
+                               <li>Hệ thống tái sử dụng dung môi khô tự động.</li>
+                               <li>Xử lý tiền chất trong công nghiệp lên men sinh học dược phẩm.</li>
+                           </ul>
+                       </div>
+                   </div>`
+            },
+            'Rb': {
+                title: "🔦 Thẻ 04: Rubidium (Rb) – “Người Gác Cổng Chân Không”",
+                content: `
+                   <div class="space-y-4">
+                        <div class="bg-red-900/30 p-3 rounded border border-red-500/50">
+                           <span class="text-xs font-bold text-red-400 uppercase tracking-widest">Lĩnh vực: Điện tử & Công nghệ Chân không</span>
+                           <h4 class="font-bold text-white text-lg mt-1 border-b border-red-500/30 pb-2 mb-2">Chất khử khí (Getters)</h4>
+                           <p class="text-sm text-slate-200">Duy trì môi trường chân không tuyệt đối cho thiết bị đo chính xác.</p>
+                       </div>
+                       <div class="bg-black/20 p-3 rounded border-l-4 border-orange-500">
+                           <h5 class="text-orange-400 font-bold text-sm mb-1">📌 Mở rộng kiến thức:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li><strong>Cơ chế Getter:</strong> Rb dễ bị oxy hóa, chủ động "hút" sạch khí tạp không mong muốn.</li>
+                               <li><strong>Tuổi thọ thiết bị:</strong> Bảo vệ ống tia cathode (CRT), đèn điện tử và máy tạo laser khí.</li>
+                               <li><strong>Đồng hồ nguyên tử:</strong> Môi trường chân không giúp giữ tần số dao động Rb ổn định tuyệt đối.</li>
+                           </ul>
+                       </div>
+                       <div class="bg-blue-900/20 p-3 rounded border-l-4 border-blue-500">
+                           <h5 class="text-blue-400 font-bold text-sm mb-1">📘 Ứng dụng nâng cao:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li>Hệ thống vi-chân không trong <strong>MEMS</strong> (Micro-Electro-Mechanical Systems).</li>
+                               <li>Bộ cộng hưởng tần số cho định vị <strong>GPS và vệ tinh</strong>.</li>
+                               <li>Tiềm năng trong chế tạo chip quang lượng tử (Quantum photonics).</li>
+                           </ul>
+                       </div>
+                   </div>`
+            },
+            'Cs': {
+                title: "❄️ Thẻ 05: Caesium (Cs) – “Chứng Minh Vụ Nổ Lạnh”",
+                content: `
+                   <div class="space-y-4">
+                        <div class="bg-blue-900/30 p-3 rounded border border-blue-500/50">
+                           <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Lĩnh vực: Vật lý phân tử & Hóa lượng tử</span>
+                           <h4 class="font-bold text-white text-lg mt-1 border-b border-blue-500/30 pb-2 mb-2">The Cold Explosion</h4>
+                           <p class="text-sm text-slate-200">Chứng minh bản chất phi nhiệt động lực học của phản ứng kiềm.</p>
+                       </div>
+                       <div class="bg-black/20 p-3 rounded border-l-4 border-indigo-500">
+                           <h5 class="text-indigo-400 font-bold text-sm mb-1">📌 Mở rộng kiến thức:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li><strong>Độ nhạy cảm:</strong> Cs có bán kính lớn, dễ ion hóa nhất, cực nhạy với môi trường.</li>
+                               <li><strong>Thí nghiệm Nổ lạnh:</strong> Chứng minh phản ứng nổ do <em>lực đẩy Coulomb (Coulomb repulsion)</em> giữa các ion dương, không phải do nhiệt (hơi nước).</li>
+                               <li>Nền tảng cho nghiên cứu vật lý plasma lạnh.</li>
+                           </ul>
+                       </div>
+                       <div class="bg-blue-900/20 p-3 rounded border-l-4 border-blue-500">
+                           <h5 class="text-blue-400 font-bold text-sm mb-1">📘 Ứng dụng nâng cao:</h5>
+                           <ul class="list-disc pl-4 space-y-1 text-xs text-slate-300 leading-relaxed">
+                               <li>Nghiên cứu vật liệu chịu <strong>Coulomb stress</strong> trong môi trường không trọng lực.</li>
+                               <li>Thiết kế <strong>bẫy ion Cesium</strong> mô phỏng phản ứng trong lõi sao.</li>
+                               <li>Mô hình hóa các vụ nổ thiên thể (supernova) dựa trên phản ứng Coulomb.</li>
+                           </ul>
+                       </div>
+                   </div>`
+            },
+            // -------------------------------------------------------------------------
+            // 2. THẺ TÍNH CHẤT (GIỮ NGUYÊN CŨ - KHÔNG THAY ĐỔI)
+            // -------------------------------------------------------------------------
+            'Li_Prop': {
+                title: "🗂️ Thẻ B1: Lithium (Li) - \"Kẻ Nhẹ Cân Nhất\"",
+                content: `
+                   <div class="space-y-4">
+                       <div class="bg-slate-900 p-3 rounded border border-slate-600">
+                           <h4 class="font-bold text-emerald-400 mb-1">🧠 Tính chất vật lý:</h4>
+                           <ul class="list-disc pl-5 space-y-1 text-xs text-slate-300">
+                               <li><strong>Màu sắc:</strong> Trắng bạc (xỉn nhanh thành xám đen).</li>
+                               <li><strong>Tỷ trọng:</strong> 0.534 g/cm³ (Chỉ bằng 1/2 nước).</li>
+                               <li><strong>Hành vi:</strong> Nổi rất cao trên mặt nước, không chìm.</li>
+                           </ul>
+                       </div>
+                       <div class="bg-indigo-900/30 p-3 rounded border border-indigo-500/30">
+                           <h4 class="font-bold text-indigo-300 mb-1">⚗️ Hiện tượng phản ứng:</h4>
+                           <ul class="list-disc pl-5 space-y-1 text-xs text-slate-200">
+                                <li>Sủi bọt khí mạnh, di chuyển chậm trên mặt nước.</li>
+                                <li>Không nóng chảy (do T<sub>nc</sub> = 180.5&deg;C).</li>
+                                <li>Không tự bốc cháy (trừ khi bị giữ lại một chỗ làm nhiệt tích tụ).</li>
+                           </ul>
+                       </div>
+                   </div>`
+            },
+            'Na_Prop': {
+                title: "🗂️ Thẻ B2: Sodium (Na) - \"Viên Bi Bạc Lướt Sóng\"",
+                content: `
+                   <div class="space-y-4">
+                       <div class="bg-slate-900 p-3 rounded border border-slate-600">
+                           <h4 class="font-bold text-emerald-400 mb-1">🧠 Tính chất vật lý:</h4>
+                           <ul class="list-disc pl-5 space-y-1 text-xs text-slate-300">
+                               <li><strong>Màu sắc:</strong> Trắng bạc sáng bóng.</li>
+                               <li><strong>Tỷ trọng:</strong> 0.97 g/cm³ (Nhẹ hơn nước một chút).</li>
+                               <li><strong>Hành vi:</strong> Nổi lập lờ sát mặt nước.</li>
+                           </ul>
+                       </div>
+                       <div class="bg-indigo-900/30 p-3 rounded border border-indigo-500/30">
+                           <h4 class="font-bold text-indigo-300 mb-1">⚗️ Hiện tượng phản ứng:</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-xs text-slate-200">
+                                <li>Nóng chảy thành giọt cầu lỏng màu bạc (T<sub>nc</sub> = 98&deg;C).</li>
+                                <li>Di chuyển hỗn loạn không ma sát.</li>
+                                <li>Kết thúc bằng tiếng nổ "Pop".</li>
+                           </ul>
+                       </div>
+                   </div>`
+            },
+            'K_Prop': {
+                title: "🗂️ Thẻ B3: Potassium (K) - \"Ngọn Lửa Tím Tức Thì\"",
+                content: `
+                   <div class="space-y-4">
+                       <div class="bg-slate-900 p-3 rounded border border-slate-600">
+                           <h4 class="font-bold text-emerald-400 mb-1">🧠 Tính chất vật lý:</h4>
+                           <ul class="list-disc pl-5 space-y-1 text-xs text-slate-300">
+                               <li><strong>Màu sắc:</strong> Trắng bạc.</li>
+                               <li><strong>Tỷ trọng:</strong> 0.86 g/cm³ (Nhẹ hơn Na).</li>
+                           </ul>
+                       </div>
+                       <div class="bg-indigo-900/30 p-3 rounded border border-indigo-500/30">
+                           <h4 class="font-bold text-indigo-300 mb-1">⚗️ Hiện tượng phản ứng:</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-xs text-slate-200">
+                                <li>Bùng cháy ngay lập tức khi chạm nước.</li>
+                                <li>Ngọn lửa màu Tím hoa cà (Lilac).</li>
+                                <li>Nổ vỡ thành nhiều giọt nhỏ.</li>
+                           </ul>
+                       </div>
+                   </div>`
+            },
+            'Rb_Prop': {
+                title: "🗂️ Thẻ B4: Rubidium (Rb) - \"Kẻ Phá Vỡ Quy Tắc Tỷ Trọng\"",
+                content: `
+                   <div class="space-y-4">
+                       <div class="bg-slate-900 p-3 rounded border border-slate-600">
+                           <h4 class="font-bold text-emerald-400 mb-1">🧠 Tính chất vật lý:</h4>
+                           <ul class="list-disc pl-5 space-y-1 text-xs text-slate-300">
+                               <li><strong>Màu sắc:</strong> Trắng bạc.</li>
+                               <li><strong>Tỷ trọng:</strong> 1.53 g/cm³ (Nặng hơn nước!).</li>
+                               <li><strong>Hành vi:</strong> Chìm xuống ngay khi thả vào.</li>
+                           </ul>
+                       </div>
+                       <div class="bg-indigo-900/30 p-3 rounded border border-indigo-500/30">
+                           <h4 class="font-bold text-indigo-300 mb-1">⚗️ Hiện tượng phản ứng:</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-xs text-slate-200">
+                                <li>Phản ứng xảy ra dưới mặt nước.</li>
+                                <li>Tạo sóng xung kích (shockwave) mạnh làm vỡ cốc.</li>
+                           </ul>
+                       </div>
+                   </div>`
+            },
+            'Cs_Prop': {
+                title: "🗂️ Thẻ B5: Caesium (Cs) - \"Vàng Ròng Chết Người\"",
+                content: `
+                   <div class="space-y-4">
+                       <div class="bg-slate-900 p-3 rounded border border-slate-600">
+                           <h4 class="font-bold text-emerald-400 mb-1">🧠 Tính chất vật lý:</h4>
+                           <ul class="list-disc pl-5 space-y-1 text-xs text-slate-300">
+                               <li><strong>Màu sắc:</strong> Vàng nhạt (Pale Gold).</li>
+                               <li><strong>Tỷ trọng:</strong> 1.93 g/cm³ (Chìm rất nhanh).</li>
+                               <li><strong>Nhiệt độ nóng chảy:</strong> 28.4°C (Hóa lỏng trong tay).</li>
+                           </ul>
+                       </div>
+                       <div class="bg-indigo-900/30 p-3 rounded border border-indigo-500/30">
+                           <h4 class="font-bold text-indigo-300 mb-1">⚗️ Hiện tượng phản ứng:</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-xs text-slate-200">
+                                <li>Nổ tức thì ngay khoảnh khắc chạm mặt nước.</li>
+                                <li>Sức công phá mạnh nhất.</li>
+                           </ul>
+                       </div>
+                   </div>`
+            }
+        };
+        // Constants & State
+        const tubesCount = 5;
+        let tubes = [];
+        let waterCounter = 0;
+        let ppCounter = 0;
+        let selectedMetal = null;
+
+        // Video Links for each metal
+        const videoLinks = [
+            "https://www.youtube.com/watch?v=C6gohQDEajg", // Li
+            "https://www.youtube.com/watch?v=Q_IzTBDEdQA", // Na
+            "https://www.youtube.com/watch?v=VlL9xgIJ1UQ", // K
+            "https://www.youtube.com/watch?v=De679J59buo", // Rb
+            "https://www.youtube.com/watch?v=Yd60FBaMhcw"  // Cs
+        ];
+
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+        const tubesContainer = document.getElementById('tubesContainer');
+        const equationDisplay = document.getElementById('equationDisplay');
+        function init() {
+            // Dọn dẹp các nút kiến thức cũ khi làm mới thí nghiệm
+            document.querySelectorAll('.btn-mo-rong').forEach(btn => btn.remove());
+            tubesContainer.innerHTML = '';
+            tubes = [];
+            waterCounter = 0;
+            ppCounter = 0;
+            selectedMetal = null;
+            equationDisplay.innerHTML = '';
+            document.getElementById('csExplanation').style.display = 'none';
+            document.getElementById('rbExplanation').style.display = 'none';
+            // REMOVE Safety button timeout logic here
+            // (Removed setTimeout causing it to stop pulsing)
+            for (let i = 0; i < tubesCount; i++) {
+                tubes.push({
+                    id: i,
+                    hasWater: false,
+                    hasPP: false,
+                    metalType: null,
+                    isBroken: false,
+                    reacted: false
+                });
+                const tubeWrapper = document.createElement('div');
+                tubeWrapper.className = 'flex flex-col items-center gap-2 group relative';
+
+                const tube = document.createElement('div');
+                tube.className = 'glass-basin cursor-pointer hover:border-slate-400 hover:shadow-[0_0_15px_rgba(255,255,255,0.6)]';
+                tube.id = `tube-${i}`;
+                tube.onclick = () => handleTubeClick(i);
+                const liquid = document.createElement('div');
+                liquid.className = 'liquid';
+                liquid.id = `liquid-${i}`;
+                tube.appendChild(liquid);
+                // Add SAFETY SHIELD for Rb (index 3) and Cs (index 4)
+                if (i === 3 || i === 4) {
+                    const shield = document.createElement('div');
+                    shield.className = 'safety-shield';
+                    shield.id = `shield-${i}`;
+
+                    const shieldLid = document.createElement('div');
+                    shieldLid.className = 'shield-lid';
+                    shieldLid.id = `shield-lid-${i}`;
+
+                    const shieldSlot = document.createElement('div');
+                    shieldSlot.className = 'shield-slot';
+
+                    shieldLid.appendChild(shieldSlot);
+                    shield.appendChild(shieldLid);
+                    tubeWrapper.appendChild(shield);
+                }
+
+                // FRAGILE SIGN FOR K (Index 2)
+                if (i === 2) {
+                    const fragileSign = document.createElement('div');
+                    fragileSign.className = 'fragile-sign';
+                    fragileSign.id = 'fragile-k';
+                    fragileSign.innerText = "DỄ VỠ";
+                    tubeWrapper.appendChild(fragileSign);
+                }
+                // Label Badge
+                const tubeLabel = document.createElement('span');
+                tubeLabel.className = 'text-xs font-bold text-teal-800 bg-teal-200 px-2 py-0.5 rounded border border-teal-500 z-10';
+                tubeLabel.innerText = `${i + 1}`;
+                tubeWrapper.appendChild(tube);
+                tubeWrapper.appendChild(tubeLabel);
+
+                // Add Shield Label ABOVE the Video Button (Between Tube Label and Video Button)
+                if (i === 3 || i === 4) {
+                    const shieldLabel = document.createElement('div');
+                    shieldLabel.className = 'shield-label-bottom';
+                    shieldLabel.innerText = "LỒNG KÍNH AN TOÀN";
+                    tubeWrapper.appendChild(shieldLabel);
+                }
+                // PLAY BUTTON (Specific for each metal) - Added label text as requested
+                const metalNames = ['Li', 'Na', 'K', 'Rb', 'Cs'];
+                const playBtn = document.createElement('a');
+                playBtn.href = videoLinks[i];
+                playBtn.target = "_blank";
+                playBtn.className = 'flex items-center justify-center gap-1 bg-pink-600 hover:bg-pink-500 text-white px-2 py-1 rounded-full shadow-lg z-10 mt-1 transition-transform hover:scale-105 text-[9px] font-bold no-underline';
+                playBtn.title = "Xem video thực tế";
+                playBtn.innerHTML = `
+                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                   <span>Video: ${metalNames[i]} + H₂O</span>
+               `;
+                tubeWrapper.appendChild(playBtn);
+
+                tubesContainer.appendChild(tubeWrapper);
+            }
+        }
+        init();
+
+        // Modal Logic
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'block';
+                // Stop pulsing when Safety modal is opened
+                if (modalId === 'safetyModal') {
+                    const btn = document.getElementById('btnSafety');
+                    if (btn) btn.classList.remove('animate-pulse');
+                }
+            }
+        }
+        function showKnowledge(metalKey) {
+            const data = knowledgeData[metalKey];
+            if (data) {
+                document.getElementById('knowTitle').innerHTML = `<i data-lucide="book-open-check"></i> ${data.title}`;
+                document.getElementById('knowContent').innerHTML = data.content;
+                const modal = document.getElementById('knowledgeModal');
+                modal.style.display = 'block';
+                lucide.createIcons();
+            }
+        }
+        // --- Logic Hóa Học ---
+        function addWater() {
+            if (waterCounter >= tubesCount) {
+                showToast("Tất cả ống đã có nước!");
+                return;
+            }
+            const tubeIndex = waterCounter;
+            const liquid = document.getElementById(`liquid-${tubeIndex}`);
+
+            // Check for Shield Lid and Open it
+            const lid = document.getElementById(`shield-lid-${tubeIndex}`);
+            if (lid) {
+                lid.classList.add('open');
+            }
+            createDrop(tubeIndex, '#b4f5ff');
+
+            setTimeout(() => {
+                liquid.style.height = '60%';
+                tubes[tubeIndex].hasWater = true;
+                playWaterSound();
+
+                // Close Lid after water is added
+                if (lid) {
+                    setTimeout(() => lid.classList.remove('open'), 500);
+                }
+            }, 500);
+            waterCounter++;
+        }
+        function addPhenolphthalein() {
+            if (ppCounter >= tubesCount) {
+                showToast("Đã nhỏ PP vào tất cả ống!");
+                return;
+            }
+            const tubeIndex = ppCounter;
+
+            // Open Lid for PP too? Logic implies yes if water needs it
+            const lid = document.getElementById(`shield-lid-${tubeIndex}`);
+            if (lid) lid.classList.add('open');
+            createDrop(tubeIndex, '#ffffff');
+            setTimeout(() => {
+                tubes[tubeIndex].hasPP = true;
+                if (tubes[tubeIndex].reacted) updateColor(tubeIndex);
+                if (lid) setTimeout(() => lid.classList.remove('open'), 500);
+            }, 500);
+            ppCounter++;
+        }
+        function selectMetal(metal) {
+            selectedMetal = metal;
+            showToast(`Đã lấy mẫu: ${metal}. Hãy chọn ống nghiệm để thả.`);
+        }
+        function handleTubeClick(index) {
+            const state = tubes[index];
+            if (state.isBroken) return;
+            if (selectedMetal) {
+                if (!state.hasWater) {
+                    showToast("Cần thêm nước vào ống nghiệm trước!");
+                    return;
+                }
+                if (state.metalType) {
+                    showToast("Phản ứng đã xảy ra ở ống này!");
+                    return;
+                }
+                dropMetal(index, selectedMetal);
+                selectedMetal = null;
+            } else {
+                if (!state.hasWater) showToast("Hãy thêm nước (Cốc chia độ).");
+                else if (!state.hasPP) showToast("Hãy thêm chỉ thị PP.");
+            }
+        }
+        function dropMetal(index, metal) {
+            const tube = document.getElementById(`tube-${index}`);
+            tubes[index].metalType = metal;
+            tubes[index].reacted = true;
+            const piece = document.createElement('div');
+            piece.className = 'metal-piece';
+
+            if (metal === 'Li') piece.style.background = 'linear-gradient(135deg, #4b5563, #1f2937)';
+            if (metal === 'Na') piece.style.background = 'linear-gradient(135deg, #f1f5f9, #cbd5e1)';
+            if (metal === 'K') piece.style.background = 'linear-gradient(135deg, #d1d5db, #9ca3af)';
+            if (metal === 'Rb') piece.style.background = 'linear-gradient(135deg, #e5e7eb, #9ca3af)';
+            if (metal === 'Cs') piece.style.background = 'linear-gradient(135deg, #fde047, #ca8a04)';
+            piece.style.top = '0px';
+            piece.style.left = '50%';
+            piece.style.transform = 'translateX(-50%)';
+            tube.appendChild(piece);
+            setTimeout(() => {
+                const densityLogic = {
+                    'Li': { sinkLevel: '35%' },
+                    'Na': { sinkLevel: '35%' },
+                    'K': { sinkLevel: '35%' },
+                    'Rb': { sinkLevel: '90%' },
+                    'Cs': { sinkLevel: '95%' }
+                };
+                const physics = densityLogic[metal];
+                piece.style.top = physics.sinkLevel;
+
+                setTimeout(() => {
+                    startReaction(index, metal, piece);
+                }, 600);
+            }, 100);
+        }
+        function startReaction(index, metal, pieceElement) {
+            const tube = document.getElementById(`tube-${index}`);
+            const liquid = document.getElementById(`liquid-${index}`);
+            const state = tubes[index];
+
+            // TRIGGER NEW FEATURE: Call the function to show knowledge button
+            // Thay đổi logic: Gọi hàm với chỉ số index để gắn vào wrapper
+            taoNutKienThuc(metal, index);
+            const reactionSpecs = {
+                'Li': {
+                    duration: 15000, // Very slow dissolve
+                    color: 'rgba(255, 182, 193, 0.7)',
+                    sound: 'fizz',
+                    type: 'float',
+                    flame: null
+                },
+                'Na': {
+                    duration: 4000,
+                    color: 'rgba(255, 105, 180, 0.8)',
+                    sound: 'hiss',
+                    type: 'skate',
+                    flame: '#fbbf24' // Yellow
+                },
+                'K': {
+                    duration: 2000,
+                    color: 'rgba(219, 39, 119, 0.9)',
+                    sound: 'pop',
+                    type: 'skate_fast',
+                    flame: '#a855f7' // Purple/Violet
+                },
+                'Rb': {
+                    duration: 500,
+                    color: 'rgba(192, 38, 211, 0.95)',
+                    sound: 'boom',
+                    type: 'sink_explode',
+                    flame: '#be185d'
+                },
+                'Cs': {
+                    duration: 100,
+                    color: 'rgba(88, 28, 135, 1)',
+                    sound: 'shatter',
+                    type: 'shatter',
+                    flame: '#6366f1'
+                }
+            };
+            const spec = reactionSpecs[metal];
+            showEquation(index);
+            // Effects
+            if (spec.type === 'float') { // Lithium logic - Very Slow
+                createBubbles(tube, spec.duration);
+                playSound('fizz', spec.duration);
+
+                // Shrinking for Li
+                let elapsed = 0;
+                const interval = setInterval(() => {
+                    if (elapsed > spec.duration) {
+                        clearInterval(interval);
+                        // Do NOT remove pieceElement for Li
+                        return;
+                    }
+                    // Shrink very slowly only down to 0.4 (40%)
+                    const progress = elapsed / spec.duration;
+                    const scale = 1 - (progress * 0.6); // 1 -> 0.4
+
+                    const newSize = 12 * scale; // Adapted for basin metal size
+                    pieceElement.style.width = `${newSize}px`;
+                    pieceElement.style.height = `${newSize}px`;
+                    elapsed += 50;
+                }, 50);
+            } else if (spec.type === 'skate') { // Sodium (Na)
+                createBubbles(tube, spec.duration);
+                playSound('hiss', spec.duration);
+                // Melting effect
+                pieceElement.style.borderRadius = '50%';
+                pieceElement.style.transition = 'all 0.5s ease-out';
+
+                // Flame
+                const flame = document.createElement('div');
+                flame.className = 'flame';
+                flame.style.background = spec.flame;
+                flame.style.boxShadow = `0 0 10px 2px ${spec.flame}`;
+                flame.style.display = 'block';
+                flame.style.width = '12px';
+                flame.style.height = '20px';
+                flame.style.top = '-15px';
+                pieceElement.appendChild(flame);
+                let elapsed = 0;
+                let angle = 0;
+                const interval = setInterval(() => {
+                    if (elapsed > spec.duration) {
+                        clearInterval(interval);
+                        pieceElement.remove();
+                        return;
+                    }
+                    // Circular/Chaotic motion for Na
+                    const radius = 10 + Math.random() * 5;
+                    angle += 0.5;
+                    const x = 50 + Math.cos(angle) * radius; // Center is 50 for basin width 100
+
+                    pieceElement.style.left = `${x}px`;
+                    // Shrink size
+                    const newSize = 12 * (1 - (elapsed / spec.duration));
+                    pieceElement.style.width = `${newSize}px`;
+                    pieceElement.style.height = `${newSize}px`;
+
+                    elapsed += 50;
+                }, 50);
+
+            } else if (spec.type === 'skate_fast') { // Potassium (K)
+                createBubbles(tube, spec.duration);
+                playSound('hiss', spec.duration);
+                pieceElement.style.borderRadius = '50%';
+
+                // Show Fragile Warning with 3s Delay
+                const sign = document.getElementById('fragile-k');
+                if (sign) setTimeout(() => sign.style.display = 'block', 3000);
+                // Large Purple Flame
+                const flame = document.createElement('div');
+                flame.className = 'flame';
+                flame.style.background = spec.flame;
+                flame.style.boxShadow = `0 0 20px 5px ${spec.flame}`;
+                flame.style.display = 'block';
+                flame.style.width = '25px';
+                flame.style.height = '60px'; // Taller flame
+                flame.style.top = '-50px';   // Reaching up
+                pieceElement.appendChild(flame);
+                let elapsed = 0;
+                const interval = setInterval(() => {
+                    if (elapsed > spec.duration) {
+                        clearInterval(interval);
+                        pieceElement.remove();
+                        // Hide sign after some more time if desired, but request implies showing it.
+                        // We can hide it much later or keep it. Let's keep it for safety emphasis.
+                        if (sign) setTimeout(() => sign.style.display = 'none', 6000);
+                        return;
+                    }
+                    // Very fast erratic motion
+                    const rndX = Math.random() * 80; // Larger range for basin
+                    pieceElement.style.left = `${rndX}px`;
+                    playSound('pop_short', 0.1); // Crackling sound
+                    elapsed += 80;
+                }, 80);
+            } else if (spec.type === 'sink_explode') { // Rb
+                playSound('boom');
+                createFlash(tube, spec.flame);
+                tube.classList.add('basin-shock'); // SHOCKWAVE
+
+                // VISUAL RING SHOCKWAVE
+                const ring = document.createElement('div');
+                ring.className = 'shock-ring active-shockwave';
+                tube.appendChild(ring);
+                setTimeout(() => ring.remove(), 500);
+                setTimeout(() => pieceElement.remove(), 200);
+                // Trigger Rb Warning with 3s Delay
+                setTimeout(() => {
+                    document.getElementById('rbExplanation').style.display = 'block';
+                    tube.classList.remove('basin-shock');
+                }, 3000);
+            } else if (spec.type === 'shatter') { // Cs
+                playSound('shatter');
+                createFlash(tube, spec.flame);
+                state.isBroken = true;
+                tube.classList.add('basin-shock'); // SHOCKWAVE
+                // VISUAL RING SHOCKWAVE
+                const ring = document.createElement('div');
+                ring.className = 'shock-ring active-shockwave';
+                tube.appendChild(ring);
+                setTimeout(() => ring.remove(), 500);
+                setTimeout(() => {
+                    tube.classList.add('broken');
+                    liquid.style.opacity = 0;
+                    // Trigger Cs Warning with 3s Delay
+                    setTimeout(() => {
+                        document.getElementById('csExplanation').style.display = 'block';
+                        tube.classList.remove('basin-shock');
+                    }, 3000);
+                }, 100);
+                pieceElement.remove();
+            }
+            if (state.hasPP && !state.isBroken) {
+                liquid.style.backgroundColor = spec.color;
+            } else {
+                state.targetColor = spec.color;
+            }
+        }
+        function updateColor(index) {
+            const state = tubes[index];
+            const liquid = document.getElementById(`liquid-${index}`);
+            const colors = {
+                'Li': 'rgba(255, 182, 193, 0.7)',
+                'Na': 'rgba(255, 105, 180, 0.8)',
+                'K': 'rgba(219, 39, 119, 0.9)',
+                'Rb': 'rgba(192, 38, 211, 0.95)',
+                'Cs': 'rgba(88, 28, 135, 1)'
+            };
+            if (state.metalType && !state.isBroken) {
+                liquid.style.backgroundColor = colors[state.metalType];
+            }
+        }
+        function showEquation(index) {
+            const metals = ['Li', 'Na', 'K', 'Rb', 'Cs'];
+            const metal = metals[index];
+            let html = '';
+            if (metal === 'Li') html = `2Li + 2H<sub>2</sub>O &rarr; 2LiOH + H<sub>2</sub>&uarr;`;
+            if (metal === 'Na') html = `2Na + 2H<sub>2</sub>O &rarr; 2NaOH + H<sub>2</sub>&uarr;`;
+            if (metal === 'K') html = `2K + 2H<sub>2</sub>O &rarr; 2KOH + H<sub>2</sub>&uarr;`;
+            if (metal === 'Rb') html = `2Rb + 2H<sub>2</sub>O &rarr; 2RbOH + H<sub>2</sub>&uarr;`;
+            if (metal === 'Cs') html = `2Cs + 2H<sub>2</sub>O &rarr; 2CsOH + H<sub>2</sub>&uarr;`;
+            equationDisplay.innerHTML = html;
+        }
+        // --- Animations & Helpers ---
+        function createDrop(tubeIndex, color) {
+            const tube = document.getElementById(`tube-${tubeIndex}`);
+            const drop = document.createElement('div');
+            drop.className = 'drop';
+            drop.style.background = color;
+            drop.style.animation = 'dropFall 0.5s linear';
+            tube.appendChild(drop);
+            setTimeout(() => drop.remove(), 500);
+        }
+        function createBubbles(tube, duration) {
+            const interval = setInterval(() => {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 4 + 2;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 80 + 10}px`; // Wider range for basin
+                tube.appendChild(bubble);
+                setTimeout(() => bubble.remove(), 2000);
+            }, 150);
+            setTimeout(() => clearInterval(interval), duration);
+        }
+        function createFlash(tube, color) {
+            const flash = document.createElement('div');
+            flash.style.position = 'absolute';
+            flash.style.top = '0';
+            flash.style.left = '0';
+            flash.style.width = '100%';
+            flash.style.height = '100%';
+            flash.style.background = `radial-gradient(circle, ${color}, transparent)`;
+            flash.style.opacity = '1';
+            flash.style.zIndex = '50';
+            flash.style.mixBlendMode = 'screen';
+            flash.style.transition = 'opacity 0.2s';
+            tube.appendChild(flash);
+            setTimeout(() => {
+                flash.style.opacity = '0';
+                setTimeout(() => flash.remove(), 200);
+            }, 100);
+        }
+        function playSound(type, duration) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            const now = audioCtx.currentTime;
+            if (type === 'fizz') {
+                const bufferSize = audioCtx.sampleRate * (duration / 1000);
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                const nGain = audioCtx.createGain();
+                nGain.gain.setValueAtTime(0.05, now);
+                noise.connect(nGain); nGain.connect(audioCtx.destination);
+                noise.start();
+            } else if (type === 'hiss') {
+                const bufferSize = audioCtx.sampleRate * (duration / 1000);
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                const nGain = audioCtx.createGain();
+                nGain.gain.setValueAtTime(0.15, now);
+                noise.connect(nGain); nGain.connect(audioCtx.destination);
+                noise.start();
+            } else if (type === 'pop_short') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(200, now);
+                osc.frequency.exponentialRampToValueAtTime(50, now + 0.1);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(); osc.stop(now + 0.1);
+            } else if (type === 'boom') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(80, now);
+                osc.frequency.exponentialRampToValueAtTime(10, now + 0.4);
+                gain.gain.setValueAtTime(0.8, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc.start(); osc.stop(now + 0.4);
+            } else if (type === 'shatter') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(1200, now);
+                osc.frequency.exponentialRampToValueAtTime(100, now + 0.15);
+                gain.gain.setValueAtTime(0.6, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.15);
+                osc.start(); osc.stop(now + 0.15);
+            }
+        }
+        function playWaterSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(700, audioCtx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        }
+        function resetExperiment() {
+            init();
+            showToast("Đã làm mới thí nghiệm!");
+        }
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            toast.innerText = message;
+            setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+        /* ==========================================================================
+        LOGIC GAME HÓA - CHIẾN DỊCH ALKALI MASTER
+        ========================================================================== */
+        const quizData = [
+            {
+                levelName: "Cấp độ 1: Nhớ (Remembering)",
+                color: "#2196F3", // Xanh dương
+                questions: [
+                    {
+                        q: "Phương trình hóa học nào đúng khi cho Sodium (Natri) tác dụng với nước?",
+                        opts: [
+                            "Na + H₂O → NaO + H₂",
+                            "2Na + 2H₂O → 2NaOH + H₂",
+                            "Na + 2H₂O → Na(OH)₂ + H₂",
+                            "2Na + H₂O → Na₂O + H₂"
+                        ],
+                        correct: 1,
+                        explain: "Sodium phản ứng với nước tạo Sodium hydroxide (NaOH) và khí Hydrogen."
+                    },
+                    {
+                        q: "Sắp xếp mức độ phản ứng tăng dần của các kim loại kiềm?",
+                        opts: [
+                            "Cs < Rb < K < Na < Li",
+                            "Li < Na < K < Rb < Cs",
+                            "Li < K < Na < Cs < Rb",
+                            "Na < Li < K < Rb < Cs"
+                        ],
+                        correct: 1,
+                        explain: "Tính khử tăng dần từ Lithium đến Cesium."
+                    },
+                    {
+                        q: "Hiện tượng khi cho Potassium (Kali) vào nước là gì?",
+                        opts: [
+                            "Chìm xuống đáy, không phản ứng",
+                            "Nổi, tan chậm, dung dịch không màu",
+                            "Phản ứng mãnh liệt, cháy ngọn lửa tím, dung dịch hóa hồng với phenolphthalein",
+                            "Nổ ngay lập tức làm vỡ cốc"
+                        ],
+                        correct: 2,
+                        explain: "K phản ứng rất mạnh, nhiệt tỏa ra đốt cháy H₂ tạo lửa tím đặc trưng."
+                    }
+                ]
+            },
+            {
+                levelName: "Cấp độ 2: Hiểu (Understanding)",
+                color: "#00BCD4", // Cyan
+                questions: [
+                    {
+                        q: "Tại sao càng xuống dưới nhóm IA, phản ứng với nước càng mạnh?",
+                        opts: [
+                            "Do bán kính nguyên tử tăng, năng lượng ion hóa giảm, dễ nhường e⁻",
+                            "Do bán kính nguyên tử giảm, hạt nhân hút e⁻ mạnh hơn",
+                            "Do khối lượng nguyên tử tăng làm kim loại nặng hơn",
+                            "Do độ âm điện tăng dần"
+                        ],
+                        correct: 0,
+                        explain: "Bán kính lớn làm e⁻ lớp ngoài cùng liên kết yếu với hạt nhân, dễ bị tách ra."
+                    },
+                    {
+                        q: "Vì sao Sodium phản ứng với nước thường có hiện tượng nóng chảy thành giọt tròn?",
+                        opts: [
+                            "Do Sodium là chất lỏng ở điều kiện thường",
+                            "Do phản ứng tỏa nhiệt lớn > nhiệt độ nóng chảy của Sodium",
+                            "Do nước làm mềm kim loại",
+                            "Do áp suất khí quyển ép lại"
+                        ],
+                        correct: 1,
+                        explain: "Phản ứng tỏa nhiệt mạnh làm kim loại nóng chảy (Sodium nóng chảy ở ~98°C)."
+                    },
+                    {
+                        q: "Sản phẩm chung của phản ứng kim loại kiềm + nước là gì?",
+                        opts: [
+                            "Oxit kim loại và Oxy",
+                            "Muối và nước",
+                            "Dung dịch Base mạnh (MOH) và khí Hydrogen (H₂)",
+                            "Dung dịch Acid và khí Hydrogen"
+                        ],
+                        correct: 2,
+                        explain: "M + H₂O → MOH + H₂."
+                    }
+                ]
+            },
+            {
+                levelName: "Cấp độ 3: Vận dụng (Applying)",
+                color: "#4CAF50", // Xanh lá
+                questions: [
+                    {
+                        q: "Tính V(H₂) (đkc) khi cho 0,46g Sodium (Na=23) tác dụng hết với nước?",
+                        opts: ["0,12395 L", "0,2479 L", "0,4958 L", "2,479 L"],
+                        correct: 1,
+                        explain: "n(Na)=0,02 mol → n(H₂)=0,01 mol. V = 0,01 × 24,79 = 0,2479 L."
+                    },
+                    {
+                        q: "Nếu thả cùng lúc Lithium và Potassium vào nước, cốc nào phản ứng xong trước?",
+                        opts: ["Cốc Lithium", "Cốc Potassium", "Xong cùng lúc", "Không xác định được"],
+                        correct: 1,
+                        explain: "Potassium phản ứng mạnh hơn nên tốc độ phản ứng nhanh hơn nhiều."
+                    },
+                    {
+                        q: "Tại sao phải bảo quản kim loại kiềm trong dầu hỏa?",
+                        opts: [
+                            "Để giữ cho kim loại luôn sáng bóng",
+                            "Để cách ly kim loại khỏi O₂ và hơi nước trong không khí",
+                            "Để làm lạnh kim loại",
+                            "Để tránh kim loại bay hơi"
+                        ],
+                        correct: 1,
+                        explain: "Ngăn phản ứng cháy nổ với môi trường."
+                    }
+                ]
+            },
+            {
+                levelName: "Cấp độ 4: Phân tích (Analyzing)",
+                color: "#9C27B0", // Tím
+                questions: [
+                    {
+                        q: "Mối liên hệ giữa bán kính và độ mạnh phản ứng của nhóm IA?",
+                        opts: [
+                            "Bán kính tăng → Phản ứng yếu đi",
+                            "Bán kính tăng → Electron dễ tách → Phản ứng mạnh hơn",
+                            "Không có mối liên hệ",
+                            "Bán kính giảm → Phản ứng mạnh hơn"
+                        ],
+                        correct: 1,
+                        explain: "Nguyên nhân gốc rễ là khả năng giữ electron của hạt nhân yếu đi khi bán kính tăng."
+                    },
+                    {
+                        q: "Tại sao dung dịch LiOH làm phenolphthalein hồng nhạt, còn RbOH làm đỏ tím?",
+                        opts: [
+                            "Do LiOH là axit",
+                            "Do RbOH có màu đỏ sẵn",
+                            "Do Li phản ứng yếu, tạo môi trường kiềm (pH) thấp hơn Rb",
+                            "Do phenolphthalein bị hỏng"
+                        ],
+                        correct: 2,
+                        explain: "Nồng độ OH⁻ sinh ra nhanh và mạnh ở Rb tạo pH cao (~14) làm màu đậm hơn."
+                    },
+                    {
+                        q: "Xu hướng biến đổi từ Li → Cs nào sau đây ĐÚNG?",
+                        opts: [
+                            "Tính khử giảm, Phản ứng chậm, pH giảm",
+                            "Tính khử tăng, Phản ứng mạnh, Tính Bazơ tăng, Màu chỉ thị đậm lên",
+                            "Bán kính giảm, Năng lượng ion hóa tăng",
+                            "Độ cứng tăng dần"
+                        ],
+                        correct: 1,
+                        explain: "Đây là quy luật biến đổi tuần hoàn của nhóm kim loại kiềm."
+                    }
+                ]
+            },
+            {
+                levelName: "Cấp độ 5: Đánh giá (Evaluating)",
+                color: "#FF9800", // Cam
+                questions: [
+                    {
+                        q: "Có nên thực hiện thí nghiệm Cesium với nước trong lớp học không?",
+                        opts: [
+                            "Nên, để học sinh thấy rõ nhất",
+                            "Không, vì gây nổ lớn cực kỳ nguy hiểm, chỉ làm trong phòng chuyên dụng",
+                            "Nên, nhưng phải dùng lượng lớn",
+                            "Được, vì Cesium rẻ tiền"
+                        ],
+                        correct: 1,
+                        explain: "Cesium phản ứng nổ tức thì, phá vỡ dụng cụ thủy tinh, nguy hiểm tính mạng."
+                    },
+                    {
+                        q: "Sai lầm khi học sinh dùng mẩu Sodium lớn cho vào nước gây nổ là gì?",
+                        opts: [
+                            "Dùng nước lạnh quá",
+                            "Không dùng phenolphthalein",
+                            "Lượng Na quá lớn gây tích tụ nhiệt và khí H₂ cục bộ",
+                            "Do chậu thí nghiệm quá to"
+                        ],
+                        correct: 2,
+                        explain: "Quy tắc an toàn: Chỉ dùng mẩu nhỏ bằng hạt đậu xanh (1-2mm)."
+                    },
+                    {
+                        q: "Hiện tượng Sodium bị ẩm tự bốc cháy là do đâu?",
+                        opts: [
+                            "Do ma sát với không khí",
+                            "Do phản ứng với hơi nước tỏa nhiệt đốt cháy H₂",
+                            "Do Sodium tự phân hủy",
+                            "Do vi khuẩn ăn Sodium"
+                        ],
+                        correct: 1,
+                        explain: "Na + H₂O(ẩm) → Nhiệt + H₂. Nhiệt tích tụ đủ lớn làm cháy H₂."
+                    }
+                ]
+            },
+            {
+                levelName: "Cấp độ 6: Sáng tạo (Creating)",
+                color: "#E91E63", // Hồng đậm
+                questions: [
+                    {
+                        q: "Đề xuất phương pháp mô phỏng an toàn nhất cho phản ứng của kim loại kiềm?",
+                        opts: [
+                            "Cho học sinh tự làm với lượng lớn",
+                            "Sử dụng phần mềm mô phỏng 3D hoặc video thí nghiệm",
+                            "Dùng kim loại giả",
+                            "Thực hiện ngoài sân trường không cần bảo hộ"
+                        ],
+                        correct: 1,
+                        explain: "Ứng dụng CNTT là cách an toàn nhất để quan sát các phản ứng nguy hiểm."
+                    },
+                    {
+                        q: "Dự đoán: Nếu Francium (Fr) phản ứng với nước, điều gì xảy ra?",
+                        opts: [
+                            "Phản ứng êm dịu",
+                            "Không phản ứng",
+                            "Nổ dữ dội hơn cả Cesium, có phóng xạ",
+                            "Tạo kết tủa đen"
+                        ],
+                        correct: 2,
+                        explain: "Fr đứng cuối nhóm IA, tính khử mạnh nhất và là nguyên tố phóng xạ."
+                    },
+                    {
+                        q: "Ứng dụng nào KHÔNG PHẢI của tính khử mạnh kim loại kiềm?",
+                        opts: [
+                            "Làm pin kiềm (Alkaline batteries)",
+                            "Chế tạo hợp kim dẫn nhiệt Na-K",
+                            "Làm vật liệu xây dựng chịu lực",
+                            "Dùng trong tổng hợp hữu cơ"
+                        ],
+                        correct: 2,
+                        explain: "Kim loại kiềm rất mềm, không chịu lực được."
+                    }
+                ]
+            }
+        ];
+
+        const sounds = {
+            click: "https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3",
+            correct: "https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3",
+            wrong: "https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3",
+            win: "https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3"
+        };
+
+        let userState = { name: "", class: "", school: "", score: 0, answers: [] };
+        /* ==========================================================================
+           DỮ LIỆU DANH PHÁP & CẤU HÌNH
+           ========================================================================== */
+        const danhPhapData = [
+            { symbol: "Li", vn: "Lithi", en: "Lithium", base: "Lithium hydroxide (LiOH)", speakBase: "Lithium hydroxide" },
+            { symbol: "Na", vn: "Natri", en: "Sodium", base: "Sodium hydroxide (NaOH)", speakBase: "Sodium hydroxide" },
+            { symbol: "K", vn: "Kali", en: "Potassium", base: "Potassium hydroxide (KOH)", speakBase: "Potassium hydroxide" },
+            { symbol: "Rb", vn: "Rubidi", en: "Rubidium", base: "Rubidium hydroxide (RbOH)", speakBase: "Rubidium hydroxide" },
+            { symbol: "Cs", vn: "Xesi", en: "Cesium", base: "Cesium hydroxide (CsOH)", speakBase: "Cesium hydroxide" },
+            { symbol: "Fr", vn: "Franci", en: "Francium", base: "Francium hydroxide (FrOH)", speakBase: "Francium hydroxide" }
+        ];
+        /* --- HÀM 1: TẠO NÚT DANH PHÁP --- */
+        function taoNutDanhPhap() {
+            if (document.getElementById("btn-danh-phap")) return;
+            const btn = document.createElement("button");
+            btn.id = "btn-danh-phap";
+            btn.innerHTML = "📘 DANH PHÁP IUPAC";
+            btn.className = "btn-tool-style w-full"; // Add w-full for sidebar
+            btn.onclick = hienBangDanhPhap;
+
+            const container = document.getElementById("sidebar-extras");
+            if (container) container.appendChild(btn);
+        }
+        /* --- HÀM 2: HIỂN THỊ BẢNG (MODAL) --- */
+        function hienBangDanhPhap() {
+            // Tạo lớp phủ
+            const overlay = document.createElement("div");
+            overlay.className = "nomenclature-overlay";
+
+            // Tạo nội dung bảng
+            let tableRows = danhPhapData.map(item => `
+                <tr>
+                    <td class="symbol-col">${item.symbol}</td>
+                    <td>${item.vn}</td>
+                    <td class="en-col">
+                        ${item.en} 
+                        <span class="speaker-icon" onclick="docTu('${item.en}')">🔊</span>
+                    </td>
+                    <td class="base-col">
+                        ${item.base}
+                        <span class="speaker-icon" onclick="docTu('${item.speakBase}')">🔊</span>
+                    </td>
+                </tr>
+            `).join("");
+            overlay.innerHTML = `
+                <div class="nomenclature-card">
+                    <div class="card-header">
+                        <h2>📘 BẢNG DANH PHÁP IUPAC (NHÓM IA)</h2>
+                        <button class="close-btn" onclick="this.closest('.nomenclature-overlay').remove()">❌</button>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2 text-sm text-gray-600"><em>*Click vào biểu tượng loa 🔊 để nghe cách đọc chuẩn tiếng Anh.</em></p>
+                        <table class="iupac-table">
+                            <thead>
+                                <tr>
+                                    <th>Ký hiệu</th>
+                                    <th>Tên Tiếng Việt</th>
+                                    <th>Tên IUPAC (Tiếng Anh)</th>
+                                    <th>Bazơ tạo thành</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tableRows}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+        /* --- HÀM 3: XỬ LÝ ĐỌC TỪ (TEXT-TO-SPEECH) --- */
+        function docTu(text) {
+            // Dừng âm thanh đang đọc dở (nếu có)
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US'; // Giọng Anh-Mỹ
+            utterance.rate = 0.9;     // Tốc độ đọc vừa phải (hơi chậm tí cho HS dễ nghe)
+            utterance.pitch = 1;      // Tông giọng bình thường
+            window.speechSynthesis.speak(utterance);
+        }
+        /* --- HÀM 4: TẠO NÚT THỬ THÁCH (Đặt vào Sidebar dưới Danh Pháp) --- */
+        function initChallengeButton() {
+            const btn = document.createElement("button");
+            btn.innerHTML = "🎯 THỬ THÁCH";
+            btn.className = "challenge-launch-btn w-full mt-2"; // Add w-full and margin
+            btn.onclick = showIntroScreen;
+            const container = document.getElementById("sidebar-extras");
+            if (container) container.appendChild(btn);
+        }
+        /* ==========================================================================
+           TÍNH NĂNG: GỬI KẾT QUẢ VỀ EMAIL GIÁO VIÊN (Dynamic Target)
+           ========================================================================== */
+        /* --------------------------------------------------------------------------
+           CẤU HÌNH LƯU TRỮ KẾT QUẢ
+           - Kết quả được gửi tới Google Apps Script Web App (file Code.gs).
+           - Script sẽ ghi 1 dòng vào Google Sheet:
+             https://docs.google.com/spreadsheets/d/1zFyW2ppEFXdg5lsC0hciySwFQOEEej8B6mBN3RypZg0/edit
+           - Đồng thời gửi email thông báo tới: phamhaihnue95@gmail.com
+           => Dán URL Web App (dạng https://script.google.com/macros/s/.../exec) vào biến dưới đây.
+           -------------------------------------------------------------------------- */
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwhL2A2AqhbmpYGu9Aa0gRW_Yi_tO4DdXZme05HzC3OjBqgp4tOwvBZ1Gv_CV1ddPIa/exec";
+        const TOTAL_QUESTIONS = 18;
+        let lastSubmitOk = false;
+
+        function buildResultPayload() {
+            let details = "";
+            userState.answers.forEach((a, i) => {
+                details += `Câu ${i + 1}: ${a.res.toUpperCase()} - ${a.q}\n   -> Đáp án đúng: ${a.ans}\n`;
+            });
+            return {
+                time: new Date().toLocaleString('vi-VN'),
+                name: userState.name,
+                className: userState.class,
+                school: userState.school,
+                score: userState.score,
+                total: TOTAL_QUESTIONS,
+                percent: Math.round((userState.score / TOTAL_QUESTIONS) * 100),
+                rank: getRankTitle(userState.score),
+                details: details
+            };
+        }
+
+        function setSubmitStatus(msg, color) {
+            ["result-submit-status", "teacher-submit-status"].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.innerHTML = msg; el.style.color = color || ""; }
+            });
+        }
+
+        // Gửi kết quả: ghi Google Sheet + gửi email (xử lý phía Apps Script)
+        function submitResult() {
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.indexOf("script.google.com") === -1) {
+                setSubmitStatus("⚠️ Chưa cấu hình GOOGLE_SCRIPT_URL – kết quả chưa được gửi.", "#facc15");
+                return Promise.resolve(false);
+            }
+            setSubmitStatus("⏳ Đang gửi kết quả tới giáo viên...", "#93c5fd");
+            // Dùng text/plain + no-cors để tránh lỗi CORS preflight với Apps Script
+            return fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify(buildResultPayload())
+            })
+                .then(() => {
+                    lastSubmitOk = true;
+                    setSubmitStatus("✅ Đã lưu kết quả và gửi thông báo tới giáo viên.", "#34d399");
+                    return true;
+                })
+                .catch(err => {
+                    console.error("Lỗi gửi kết quả:", err);
+                    lastSubmitOk = false;
+                    setSubmitStatus("❌ Gửi thất bại (lỗi mạng). Bấm 'DÀNH CHO GIÁO VIÊN' để gửi lại.", "#f87171");
+                    return false;
+                });
+        }
+
+        function openTeacherModal() {
+            // Kiểm tra xem học sinh đã làm bài chưa
+            if (!userState || !userState.name || userState.score === undefined) {
+                showToast("⚠️ Cần làm bài 'Thử Thách' trước khi gửi báo cáo!");
+                return;
+            }
+            toggleModal('teacherModal');
+        }
+        function sendReportToTeacher() {
+            const btn = document.getElementById("btn-send-report");
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="loader-2" class="animate-spin"></i> Đang gửi...`;
+            btn.disabled = true;
+            submitResult()
+                .then(ok => {
+                    if (ok) {
+                        showToast("✅ Đã gửi lại kết quả tới giáo viên!");
+                        toggleModal('teacherModal');
+                    } else {
+                        showToast("⚠️ Chưa gửi được kết quả. Vui lòng thử lại.");
+                    }
+                })
+                .finally(() => {
+                    // Reset nút
+                    btn.innerHTML = originalBtnText;
+                    btn.disabled = false;
+                    lucide.createIcons(); // Re-render icon
+                });
+        }
+        // Hàm phụ trợ lấy danh hiệu
+        function getRankTitle(score) {
+            const percent = Math.round((score / 18) * 100);
+            return percent >= 90 ? "HUYỀN THOẠI 🏆" : (percent >= 70 ? "CHUYÊN GIA 🥇" : "THỰC TẬP SINH 🌱");
+        }
+        /* --- HÀM 2: MÀN HÌNH GIỚI THIỆU & NHẬP TÊN --- */
+        function showIntroScreen() {
+            new Audio(sounds.click).play();
+            const overlay = document.createElement("div");
+            overlay.className = "quiz-overlay";
+            overlay.id = "intro-overlay";
+
+            overlay.innerHTML = `
+                <div class="quiz-card intro-card">
+                    <h1 class="neon-text">CHIẾN DỊCH: ALKALI MASTER 🧪</h1>
+                    <div class="intro-content">
+                        <h3>🎯 CHỦ ĐỀ: Tính chất hóa học của kim loại kiềm (Nhóm IA) tác dụng với nước</h3>
+                        <p><strong>Nhiệm vụ:</strong> Vượt qua 6 Cấp độ tư duy từ Nhớ đến Sáng tạo.</p>
+                        <div class="input-group">
+                            <input type="text" id="u-name" placeholder="Họ và Tên Chiến Binh">
+                            <input type="text" id="u-class" placeholder="Lớp">
+                            <input type="text" id="u-school" placeholder="Trường">
+                        </div>
+                    </div>
+                    <button class="action-btn" onclick="startGame()">🚀 KÍCH HOẠT NHIỆM VỤ</button>
+                    <button class="close-btn" onclick="this.parentElement.parentElement.remove()">❌</button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+        /* --- HÀM 3: LOGIC GAME --- */
+        function startGame() {
+            const name = document.getElementById("u-name").value;
+            const cls = document.getElementById("u-class").value;
+            const school = document.getElementById("u-school").value;
+
+            if (!name || !cls) {
+                showToast("Vui lòng nhập tên và lớp để ghi danh!");
+                return;
+            }
+
+            userState = { name: name, class: cls, school: school, score: 0, answers: [] };
+            document.getElementById("intro-overlay").remove();
+            runLevel(0, 0); // Bắt đầu Level 0, câu 0
+        }
+        function runLevel(lvIdx, qIdx) {
+            if (lvIdx >= quizData.length) { showResult(); return; }
+
+            const level = quizData[lvIdx];
+            if (qIdx >= level.questions.length) {
+                // Hết câu hỏi level này -> Chuyển level
+                showLevelUp(lvIdx + 1);
+                return;
+            }
+            const q = level.questions[qIdx];
+            const overlay = document.createElement("div");
+            overlay.className = "quiz-overlay";
+            overlay.id = "game-overlay";
+            let html = `
+                <div class="quiz-card" style="border-top: 5px solid ${level.color}">
+                    <div class="level-badge" style="background:${level.color}">${level.levelName}</div>
+                    <div class="progress-bar"><div style="width:${((lvIdx * 3 + qIdx + 1) / 18) * 100}%"></div></div>
+                    <h3 class="question-text font-bold text-lg mb-4">${q.q}</h3>
+                    <div class="options-grid">
+            `;
+
+            q.opts.forEach((opt, idx) => {
+                html += `<button class="opt-btn" onclick="checkAnswer(${lvIdx}, ${qIdx}, ${idx})">${opt}</button>`;
+            });
+            html += `</div><div id="feedback"></div></div>`;
+            overlay.innerHTML = html;
+            document.body.appendChild(overlay);
+        }
+        function checkAnswer(lvIdx, qIdx, choice) {
+            const q = quizData[lvIdx].questions[qIdx];
+            const btns = document.querySelectorAll(".opt-btn");
+            const fb = document.getElementById("feedback");
+
+            btns.forEach(b => b.disabled = true);
+
+            const isCorrect = choice === q.correct;
+            userState.answers.push({ q: q.q, res: isCorrect ? "Đúng" : "Sai", ans: q.opts[q.correct] });
+
+            if (isCorrect) {
+                userState.score++;
+                new Audio(sounds.correct).play();
+                btns[choice].classList.add("correct");
+                fb.innerHTML = `<div class="msg-correct">🎯 Tuyệt đỉnh! Chính xác +1 điểm</div><small>${q.explain}</small>`;
+            } else {
+                new Audio(sounds.wrong).play();
+                btns[choice].classList.add("wrong");
+                btns[q.correct].classList.add("correct");
+                fb.innerHTML = `<div class="msg-wrong">⚠️ Suýt đúng! Cẩn thận nhé!</div><small>${q.explain}</small>`;
+            }
+            setTimeout(() => {
+                document.getElementById("game-overlay").remove();
+                runLevel(lvIdx, qIdx + 1);
+            }, 2500); // Chờ 2.5s để đọc giải thích
+        }
+        function showLevelUp(nextLv) {
+            if (nextLv >= quizData.length) { showResult(); return; }
+            new Audio(sounds.click).play();
+            const div = document.createElement("div");
+            div.className = "quiz-overlay";
+            div.innerHTML = `
+                <div class="quiz-card center-align">
+                    <h1 style="font-size: 50px">🆙 LEVEL UP!</h1>
+                    <p>Bạn đã mở khóa kiến thức: ${quizData[nextLv].levelName}</p>
+                    <button class="action-btn" onclick="this.parentElement.parentElement.remove(); runLevel(${nextLv}, 0)">TIẾP TỤC CHIẾN ĐẤU ➤</button>
+                </div>
+            `;
+            document.body.appendChild(div);
+        }
+        /* --- HÀM 4: KẾT QUẢ & XUẤT FILE --- */
+        function showResult() {
+            new Audio(sounds.win).play();
+            const percent = Math.round((userState.score / 18) * 100);
+            let title = percent >= 90 ? "HUYỀN THOẠI HÓA HỌC 🏆" : (percent >= 70 ? "CHUYÊN GIA CAO CẤP 🥇" : "THỰC TẬP SINH TRIỂN VỌNG 🌱");
+
+            const div = document.createElement("div");
+            div.className = "quiz-overlay";
+            div.innerHTML = `
+                <div class="quiz-card center-align result-card">
+                    <h2>TỔNG KẾT CHIẾN DỊCH</h2>
+                    <div class="score-circle">${percent}%</div>
+                    <h3>${title}</h3>
+                    <p>Điểm số: ${userState.score}/18 câu</p>
+                    <p>Chiến binh: ${userState.name} - Lớp: ${userState.class}</p>
+                    <p id="result-submit-status" style="font-size:13px; margin:10px 0; font-style:italic;"></p>
+                    <div class="btn-group">
+                        <button class="action-btn save-btn" onclick="downloadReport()">💾 TẢI BÁO CÁO</button>
+                        <button class="action-btn restart-btn" onclick="location.reload()">🔄 LÀM LẠI</button>
+                        <button class="close-btn-text" onclick="this.parentElement.parentElement.parentElement.remove()">Đóng</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(div);
+            // Tự động lưu kết quả vào Google Sheet + gửi email cho giáo viên
+            submitResult();
+        }
+        function downloadReport() {
+            const date = new Date().toLocaleString();
+            let txt = `=== BÁO CÁO KẾT QUẢ: ĐẤU TRƯỜNG ALKALI MASTER ===\n`;
+            txt += `Thời gian: ${date}\nHọ tên: ${userState.name}\nLớp: ${userState.class} - Trường: ${userState.school}\n`;
+            txt += `-------------------------------------------\n`;
+            txt += `KẾT QUẢ: ${userState.score}/18 (${Math.round((userState.score / 18) * 100)}%)\n`;
+            txt += `-------------------------------------------\nCHI TIẾT:\n`;
+            userState.answers.forEach((a, i) => {
+                txt += `Câu ${i + 1}: ${a.res} | ${a.q}\n   -> Đáp án đúng: ${a.ans}\n\n`;
+            });
+
+            const blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `KetQua_${userState.name}.txt`;
+            link.click();
+        }
+        // KHỞI TẠO NÚT
+        taoNutDanhPhap();
+        initChallengeButton();
+        // Đã xóa initTeacherButton() để tránh trùng lặp nút
+    </script>
+</body>
+
+</html>
