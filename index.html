@@ -1068,56 +1068,184 @@
             }
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
+        @media (max-width: 1023px) {
+            body {
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+                height: auto !important;
+                min-height: 100vh !important;
             }
+            .experiment-panel {
+                border-right: none !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 8px !important;
+            }
+            .tool-panel {
+                border-left: none !important;
+                border-top: 2px solid #4338ca;
+                padding: 10px !important;
+            }
+        }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        @media (max-width: 640px) {
+            .glass-basin {
+                width: 54px !important;
+                height: 44px !important;
+            }
+            .safety-shield {
+                width: 70px !important;
+                height: 82px !important;
+                top: -18px !important;
+            }
+            .shield-label-bottom {
+                font-size: 6px !important;
+                padding: 1px 3px !important;
+                bottom: -28px !important;
+                white-space: nowrap !important;
+            }
+            .shield-lid {
+                height: 14px !important;
+                top: -8px !important;
+            }
+            .shield-slot {
+                width: 18px !important;
+                height: 4px !important;
+            }
+            .fragile-sign {
+                font-size: 6px !important;
+                width: 32px !important;
+                top: -20px !important;
+                right: -14px !important;
+                padding: 1px !important;
+            }
+            .metal-piece {
+                width: 7px !important;
+                height: 7px !important;
+            }
+            .flame {
+                width: 10px !important;
+                height: 18px !important;
+            }
+            .beaker-container {
+                width: 34px !important;
+                height: 42px !important;
+            }
+            .bottle-reagent {
+                width: 28px !important;
+                height: 42px !important;
+            }
+            .modal-content, .modal-box, .quiz-card, .nomenclature-card {
+                width: 95% !important;
+                max-width: 95% !important;
+                padding: 14px !important;
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+            }
+            .iupac-table th, .iupac-table td {
+                padding: 6px 6px !important;
+                font-size: 11px !important;
+            }
+            .opt-btn {
+                padding: 10px 12px !important;
+                font-size: 13px !important;
+            }
+            .score-circle {
+                font-size: 36px !important;
+                margin: 8px 0 !important;
+            }
+            .neon-text {
+                font-size: 17px !important;
+                margin-bottom: 12px !important;
+            }
+            .options-grid {
+                gap: 8px !important;
+                margin: 12px 0 !important;
+            }
+            .input-group input {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
+            .action-btn {
+                padding: 10px 16px !important;
+                font-size: 14px !important;
             }
         }
     </style>
 </head>
 
-<body class="h-screen w-screen flex flex-row p-0 gap-0">
+<body class="min-h-screen lg:h-screen w-screen flex flex-col lg:flex-row p-0 gap-0 overflow-y-auto lg:overflow-hidden">
     <!-- AUDIO ELEMENTS -->
     <audio id="bgMusic" loop></audio>
     <!-- LEFT PANEL (Experiment Area) -->
-    <div class="w-3/4 flex flex-col h-full relative experiment-panel p-6">
+    <div id="main-experiment-panel" class="w-full lg:w-3/4 flex flex-col h-auto lg:h-full relative experiment-panel p-2 sm:p-4 lg:p-6">
 
         <!-- Header Controls -->
-        <div class="flex justify-between items-center px-6 pt-4 pb-2 shrink-0 relative w-full">
-            <!-- Left: Guide, Video (Compact size) -->
-            <div class="flex gap-2 w-auto items-center z-10 absolute left-6">
-                <button onclick="toggleModal('guideModal')"
-                    class="flex items-center gap-1 bg-blue-600 text-white px-2 py-1.5 rounded shadow hover:bg-blue-500 btn-3d text-[10px] font-bold border-blue-800">
-                    <i data-lucide="book-open" class="w-3 h-3"></i>
-                    <span>HƯỚNG DẪN</span>
-                </button>
-                <a href="https://www.youtube.com/watch?v=GEsimtIhcvI&feature=youtu.be" target="_blank"
-                    class="flex items-center gap-1 bg-pink-600 text-white px-2 py-1.5 rounded shadow hover:bg-pink-500 btn-3d text-[10px] font-bold border-pink-800 no-underline transition-colors">
-                    <i data-lucide="video" class="w-3 h-3"></i>
-                    <span>VIDEO THỰC TẾ</span>
-                </a>
+        <div class="px-2 pt-2 pb-2 lg:px-6 lg:pt-4 shrink-0 relative w-full border-b border-slate-300/60 lg:border-none">
+            <!-- Mobile Header (< lg) -->
+            <div class="flex flex-col items-center gap-1.5 lg:hidden text-center w-full">
+                <h1 class="text-base sm:text-xl font-bold text-slate-800 uppercase tracking-wide leading-tight">
+                    TÍNH CHẤT HÓA HỌC CỦA KIM LOẠI KIỀM
+                </h1>
+                <p class="text-[11px] text-slate-600 font-medium">Mô phỏng phản ứng với nước (H<sub>2</sub>O)</p>
+                <div class="flex items-center justify-center gap-2 flex-wrap text-[10px] text-indigo-700 font-bold">
+                    <span>GV: Phạm Thị Hải - THCS Cầu Giấy B, Hà Nội</span>
+                    <a href="https://web.facebook.com/share/1KZzmHBx1p/?mibextid=wwXIfr&_rdc=1&_rdr" target="_blank"
+                        class="inline-flex items-center gap-1 bg-indigo-600 text-white px-2 py-0.5 rounded shadow text-[9px] font-bold no-underline">
+                        <i data-lucide="facebook" class="w-2.5 h-2.5"></i> FB GV
+                    </a>
+                </div>
+                <!-- Action Buttons Row on Mobile -->
+                <div class="flex items-center justify-center gap-1.5 w-full mt-1 flex-wrap">
+                    <button onclick="toggleModal('guideModal')"
+                        class="flex items-center gap-1 bg-blue-600 text-white px-2 py-1 rounded shadow text-[10px] font-bold btn-3d">
+                        <i data-lucide="book-open" class="w-3 h-3"></i> HƯỚNG DẪN
+                    </button>
+                    <a href="https://www.youtube.com/watch?v=GEsimtIhcvI&feature=youtu.be" target="_blank"
+                        class="flex items-center gap-1 bg-pink-600 text-white px-2 py-1 rounded shadow text-[10px] font-bold btn-3d no-underline">
+                        <i data-lucide="video" class="w-3 h-3"></i> VIDEO THỰC TẾ
+                    </a>
+                    <button id="btnSafety-mobile" onclick="toggleModal('safetyModal')"
+                        class="flex items-center gap-1 bg-red-600 text-white px-2.5 py-1 rounded shadow text-[10px] font-bold btn-3d animate-pulse">
+                        <i data-lucide="triangle-alert" class="w-3 h-3"></i> AN TOÀN
+                    </button>
+                </div>
+                <!-- Mobile Tab Switcher: [ 🧪 THÍ NGHIỆM ] vs [ 📚 LÝ THUYẾT & THỬ THÁCH ] -->
+                <div class="grid grid-cols-2 gap-1 w-full max-w-sm mt-1 p-1 bg-slate-200/90 rounded-xl border border-slate-300">
+                    <button id="tab-btn-exp" onclick="switchMobileTab('exp')"
+                        class="py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow bg-indigo-600 text-white">
+                        <span>🧪 THÍ NGHIỆM</span>
+                    </button>
+                    <button id="tab-btn-learn" onclick="switchMobileTab('learn')"
+                        class="py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-all text-slate-700 hover:bg-white/60">
+                        <span>📚 LÝ THUYẾT & THỬ THÁCH</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Center: Title -->
-            <div class="absolute left-[55%] transform -translate-x-1/2 text-center w-auto top-6">
-                <!-- UPDATED TITLE COLOR FOR LIGHT BACKGROUND -->
-                <h1
-                    class="text-2xl md:text-3xl font-bold text-slate-800 uppercase tracking-wider drop-shadow-sm leading-tight whitespace-nowrap">
-                    TÍNH CHẤT HÓA HỌC<br>CỦA KIM LOẠI KIỀM
-                </h1>
-                <p class="text-xs text-slate-600 font-medium mt-1">Mô phỏng phản ứng với nước (H<sub>2</sub>O)</p>
+            <!-- Desktop Header (>= lg) -->
+            <div class="hidden lg:flex justify-between items-center relative w-full min-h-[90px]">
+                <!-- Left: Guide, Video -->
+                <div class="flex gap-2 w-auto items-center z-10 absolute left-0">
+                    <button onclick="toggleModal('guideModal')"
+                        class="flex items-center gap-1 bg-blue-600 text-white px-2 py-1.5 rounded shadow hover:bg-blue-500 btn-3d text-[10px] font-bold border-blue-800">
+                        <i data-lucide="book-open" class="w-3 h-3"></i>
+                        <span>HƯỚNG DẪN</span>
+                    </button>
+                    <a href="https://www.youtube.com/watch?v=GEsimtIhcvI&feature=youtu.be" target="_blank"
+                        class="flex items-center gap-1 bg-pink-600 text-white px-2 py-1.5 rounded shadow hover:bg-pink-500 btn-3d text-[10px] font-bold border-pink-800 no-underline transition-colors">
+                        <i data-lucide="video" class="w-3 h-3"></i>
+                        <span>VIDEO THỰC TẾ</span>
+                    </a>
+                </div>
 
-                <!-- CONTACT INFO WITH BUTTONS -->
-                <div class="flex flex-col items-center gap-1 mt-2">
-                    <div class="flex items-center gap-2">
-                        <span class="text-[10px] text-indigo-700 font-bold italic">GV: Phạm Thị Hải - THCS Cầu Giấy B,
-                            Phường Cầu Giấy, Hà Nội</span>
+                <!-- Center: Title -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 text-center w-auto">
+                    <h1 class="text-2xl md:text-3xl font-bold text-slate-800 uppercase tracking-wider drop-shadow-sm leading-tight whitespace-nowrap">
+                        TÍNH CHẤT HÓA HỌC<br>CỦA KIM LOẠI KIỀM
+                    </h1>
+                    <p class="text-xs text-slate-600 font-medium mt-1">Mô phỏng phản ứng với nước (H<sub>2</sub>O)</p>
+                    <div class="flex items-center justify-center gap-2 mt-2">
+                        <span class="text-[10px] text-indigo-700 font-bold italic">GV: Phạm Thị Hải - THCS Cầu Giấy B, Phường Cầu Giấy, Hà Nội</span>
                         <a href="https://web.facebook.com/share/1KZzmHBx1p/?mibextid=wwXIfr&_rdc=1&_rdr" target="_blank"
                             class="flex items-center gap-1 bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-0.5 rounded shadow btn-3d text-[9px] font-bold border-indigo-800 no-underline transition-colors">
                             <i data-lucide="facebook" class="w-3 h-3"></i>
@@ -1125,23 +1253,24 @@
                         </a>
                     </div>
                 </div>
-            </div>
 
-            <!-- Right: Safety -->
-            <div class="flex gap-2 w-auto justify-end z-10 absolute right-6">
-                <button id="btnSafety" onclick="toggleModal('safetyModal')"
-                    class="flex items-center gap-2 bg-red-600 text-white px-3 py-1.5 rounded shadow hover:bg-red-500 btn-3d text-sm font-bold border-red-800 animate-pulse">
-                    <i data-lucide="triangle-alert" class="w-4 h-4"></i>
-                    <span>AN TOÀN</span>
-                </button>
+                <!-- Right: Safety -->
+                <div class="flex gap-2 w-auto justify-end z-10 absolute right-0">
+                    <button id="btnSafety" onclick="toggleModal('safetyModal')"
+                        class="flex items-center gap-2 bg-red-600 text-white px-3 py-1.5 rounded shadow hover:bg-red-500 btn-3d text-sm font-bold border-red-800 animate-pulse">
+                        <i data-lucide="triangle-alert" class="w-4 h-4"></i>
+                        <span>AN TOÀN</span>
+                    </button>
+                </div>
             </div>
         </div>
-        <!-- MAIN BODY - Split into Sidebar and Stage -->
-        <div class="flex-grow flex flex-row relative overflow-hidden">
 
-            <!-- 1. SIDEBAR CONTROLS (Left - 250px width) -->
-            <div
-                class="w-[250px] shrink-0 flex flex-col gap-3 p-4 z-20 overflow-y-auto border-r border-slate-300 bg-white/20 backdrop-blur-sm">
+        <!-- MAIN BODY - Split into Sidebar and Stage -->
+        <div class="flex-grow flex flex-col lg:flex-row relative overflow-hidden">
+
+            <!-- 1. SIDEBAR CONTROLS (Left - 250px width on desktop, full width when tab active on mobile) -->
+            <div id="sidebar-panel"
+                class="hidden lg:flex w-full lg:w-[250px] shrink-0 flex-col gap-3 p-3 lg:p-4 z-20 overflow-y-auto border-r border-slate-300 bg-white/20 backdrop-blur-sm">
 
                 <div
                     class="text-xs font-bold text-teal-700 mb-1 ml-1 uppercase tracking-wide border-b border-teal-300 pb-1 w-full text-center">
@@ -1254,31 +1383,31 @@
                 </div>
             </div>
             <!-- 2. EXPERIMENT STAGE (Center/Right) -->
-            <div class="flex-grow flex flex-col justify-end relative pb-4 px-4 overflow-hidden">
+            <div id="stage-panel" class="flex-grow flex flex-col justify-end relative pb-2 sm:pb-4 px-1 sm:px-4 overflow-hidden">
                 <!-- Tubes Container -->
-                <div id="tubesContainer" class="flex justify-center gap-8 items-end mb-8 w-full">
+                <div id="tubesContainer" class="flex justify-center gap-1.5 sm:gap-4 lg:gap-8 items-end mb-4 sm:mb-6 lg:mb-8 w-full">
                     <!-- Tubes injected by JS -->
                 </div>
                 <!-- Equation Display Area - UPDATED BACKGROUND -->
                 <div
-                    class="mt-4 h-20 w-full flex items-center justify-center bg-white/60 rounded-xl backdrop-blur-sm border border-slate-400/30 mx-auto max-w-2xl shadow-xl shrink-0">
+                    class="mt-2 lg:mt-4 min-h-[48px] sm:min-h-[56px] lg:h-20 w-full flex items-center justify-center bg-white/60 rounded-xl backdrop-blur-sm border border-slate-400/30 mx-auto max-w-2xl shadow-xl shrink-0 px-2">
                     <div id="equationDisplay"
-                        class="chemical-font text-3xl text-indigo-900 font-bold drop-shadow-sm tracking-wider min-h-[40px]">
+                        class="chemical-font text-base sm:text-xl lg:text-3xl text-indigo-900 font-bold drop-shadow-sm tracking-wide text-center leading-tight">
                         <!-- Equation Text -->
                     </div>
                 </div>
 
-                <!-- Popups (Absolute over this area) -->
+                <!-- Popups (Absolute/Fixed over this area) -->
                 <div id="csExplanation"
-                    class="fixed top-[20%] right-[30%] bg-red-900/95 text-white p-5 rounded-xl border border-red-500 shadow-2xl z-50 hidden max-w-sm">
-                    <div class="flex items-start gap-4">
+                    class="fixed top-[15%] left-1/2 -translate-x-1/2 bg-red-900/95 text-white p-4 sm:p-5 rounded-xl border border-red-500 shadow-2xl z-50 hidden w-[90%] max-w-sm">
+                    <div class="flex items-start gap-3 sm:gap-4">
                         <div class="bg-red-500 p-2 rounded-full shadow-lg shrink-0">
-                            <i data-lucide="bomb" class="w-6 h-6 text-white"></i>
+                            <i data-lucide="bomb" class="w-5 h-5 sm:w-6 sm:h-6 text-white"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-lg mb-2 text-white border-b border-red-400 pb-1">VỠ ỐNG NGHIỆM!
+                            <h4 class="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-white border-b border-red-400 pb-1">VỠ ỐNG NGHIỆM!
                             </h4>
-                            <p class="text-sm leading-relaxed text-red-50 mb-3">
+                            <p class="text-xs sm:text-sm leading-relaxed text-red-50 mb-3">
                                 Phản ứng của <strong>Cesium (Cs)</strong> tỏa nhiệt cực lớn (H<sub>2</sub> bắt lửa ngay
                                 lập tức) gây nổ hơi và sóng xung kích mạnh làm vỡ thủy tinh.
                             </p>
@@ -1294,15 +1423,15 @@
                 </div>
 
                 <div id="rbExplanation"
-                    class="fixed top-[20%] right-[30%] bg-orange-900/95 text-white p-5 rounded-xl border border-orange-500 shadow-2xl z-50 hidden max-w-sm">
-                    <div class="flex items-start gap-4">
+                    class="fixed top-[15%] left-1/2 -translate-x-1/2 bg-orange-900/95 text-white p-4 sm:p-5 rounded-xl border border-orange-500 shadow-2xl z-50 hidden w-[90%] max-w-sm">
+                    <div class="flex items-start gap-3 sm:gap-4">
                         <div class="bg-orange-500 p-2 rounded-full shadow-lg shrink-0">
-                            <i data-lucide="triangle-alert" class="w-6 h-6 text-white"></i>
+                            <i data-lucide="triangle-alert" class="w-5 h-5 sm:w-6 sm:h-6 text-white"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-lg mb-2 text-white border-b border-orange-400 pb-1">NGUY HIỂM!
+                            <h4 class="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-white border-b border-orange-400 pb-1">NGUY HIỂM!
                             </h4>
-                            <p class="text-sm leading-relaxed text-orange-50 mb-3">
+                            <p class="text-xs sm:text-sm leading-relaxed text-orange-50 mb-3">
                                 Phản ứng của <strong>Rubidium (Rb)</strong> cực kỳ mãnh liệt, gây nổ nhẹ và bắn tung
                                 tóe. Có nguy cơ làm vỡ ống nghiệm nếu không được che chắn.
                             </p>
@@ -1497,14 +1626,14 @@
         </div>
     </div>
     <!-- RIGHT PANEL (Tools) -->
-    <div class="w-1/4 flex flex-col gap-4 tool-panel p-6 shadow-2xl z-30">
+    <div id="tools-panel" class="w-full lg:w-1/4 flex flex-col gap-2.5 sm:gap-4 tool-panel p-2.5 sm:p-4 lg:p-6 shadow-2xl z-30">
         <!-- Chemicals Section -->
-        <div class="bg-black/20 rounded-2xl p-4 flex-none flex flex-col border border-indigo-400/30">
+        <div class="bg-black/20 rounded-xl lg:rounded-2xl p-2.5 sm:p-3 lg:p-4 flex-none flex flex-col border border-indigo-400/30">
             <h3
-                class="text-indigo-200 font-bold uppercase text-xs border-b border-indigo-500/50 pb-2 mb-4 flex items-center gap-2 tracking-widest">
-                <i data-lucide="flask-conical" class="w-4 h-4"></i> Hóa chất
+                class="text-indigo-200 font-bold uppercase text-[11px] lg:text-xs border-b border-indigo-500/50 pb-1.5 mb-2 sm:mb-4 flex items-center gap-1.5 lg:gap-2 tracking-widest">
+                <i data-lucide="flask-conical" class="w-3.5 h-3.5 lg:w-4 lg:h-4"></i> Hóa chất
             </h3>
-            <div class="flex justify-around items-end mb-4">
+            <div class="flex justify-around items-end mb-2">
                 <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform group"
                     onclick="addWater()">
                     <div class="beaker-container">
@@ -1512,7 +1641,7 @@
                         <div class="graduation-mark" style="bottom: 10px;"></div>
                         <div class="graduation-mark" style="bottom: 20px; width: 12px;"></div>
                     </div>
-                    <span class="mt-3 text-xs text-indigo-100 font-bold bg-indigo-900/50 px-2 py-1 rounded">Nước
+                    <span class="mt-2 text-[10px] sm:text-xs text-indigo-100 font-bold bg-indigo-900/50 px-2 py-0.5 rounded">Nước
                         (H<sub>2</sub>O)</span>
                 </div>
                 <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform group"
@@ -1522,58 +1651,58 @@
                                 class="text-[6px] font-normal text-gray-600">Phenol phtalein</div>
                         </div>
                     </div>
-                    <span class="mt-3 text-xs text-indigo-100 font-bold bg-indigo-900/50 px-2 py-1 rounded">Chỉ thị
+                    <span class="mt-2 text-[10px] sm:text-xs text-indigo-100 font-bold bg-indigo-900/50 px-2 py-0.5 rounded">Chỉ thị
                         màu</span>
                 </div>
             </div>
         </div>
         <!-- Metals Section -->
-        <div class="bg-black/20 rounded-2xl p-4 flex-grow border border-indigo-400/30 flex flex-col">
+        <div class="bg-black/20 rounded-xl lg:rounded-2xl p-2.5 sm:p-3 lg:p-4 flex-grow border border-indigo-400/30 flex flex-col">
             <h3
-                class="text-indigo-200 font-bold uppercase text-xs border-b border-indigo-500/50 pb-2 mb-4 flex items-center gap-2 tracking-widest">
-                <i data-lucide="layers" class="w-4 h-4"></i> Mẫu Kim Loại
+                class="text-indigo-200 font-bold uppercase text-[11px] lg:text-xs border-b border-indigo-500/50 pb-1.5 mb-2 sm:mb-4 flex items-center gap-1.5 lg:gap-2 tracking-widest">
+                <i data-lucide="layers" class="w-3.5 h-3.5 lg:w-4 lg:h-4"></i> Mẫu Kim Loại
             </h3>
-            <div class="grid grid-cols-2 gap-4 flex-grow content-start">
+            <div class="grid grid-cols-5 lg:grid-cols-2 gap-1.5 sm:gap-2 lg:gap-4 flex-grow content-start">
                 <button onclick="selectMetal('Li')"
-                    class="btn-3d bg-slate-600 p-2 rounded-lg flex flex-col items-center border-slate-800 hover:bg-slate-500 group relative">
+                    class="btn-3d bg-slate-600 p-1.5 sm:p-2 rounded-lg flex flex-col items-center border-slate-800 hover:bg-slate-500 group relative">
                     <div
-                        class="w-10 h-8 bg-gradient-to-br from-gray-700 to-black rounded-[40%_60%_50%_50%] shadow-lg mb-2 border border-gray-600">
+                        class="w-6 h-5 sm:w-8 sm:h-7 lg:w-10 lg:h-8 bg-gradient-to-br from-gray-700 to-black rounded-[40%_60%_50%_50%] shadow-lg mb-1 sm:mb-2 border border-gray-600">
                     </div>
-                    <span class="font-bold text-gray-200">Li</span>
+                    <span class="font-bold text-gray-200 text-xs sm:text-sm">Li</span>
                 </button>
                 <button onclick="selectMetal('Na')"
-                    class="btn-3d bg-slate-500 p-2 rounded-lg flex flex-col items-center border-slate-700 hover:bg-slate-400 group">
+                    class="btn-3d bg-slate-500 p-1.5 sm:p-2 rounded-lg flex flex-col items-center border-slate-700 hover:bg-slate-400 group">
                     <div
-                        class="w-8 h-8 bg-gradient-to-br from-gray-100 to-gray-400 rounded shadow-lg mb-2 border border-white/50">
+                        class="w-5 h-5 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-gradient-to-br from-gray-100 to-gray-400 rounded shadow-lg mb-1 sm:mb-2 border border-white/50">
                     </div>
-                    <span class="font-bold text-white">Na</span>
+                    <span class="font-bold text-white text-xs sm:text-sm">Na</span>
                 </button>
                 <button onclick="selectMetal('K')"
-                    class="btn-3d bg-slate-500 p-2 rounded-lg flex flex-col items-center border-slate-700 hover:bg-slate-400 group">
+                    class="btn-3d bg-slate-500 p-1.5 sm:p-2 rounded-lg flex flex-col items-center border-slate-700 hover:bg-slate-400 group">
                     <div
-                        class="w-9 h-9 bg-gradient-to-br from-gray-300 to-gray-500 rounded-full shadow-lg mb-2 border border-gray-400">
+                        class="w-5 h-5 sm:w-7 sm:h-7 lg:w-9 lg:h-9 bg-gradient-to-br from-gray-300 to-gray-500 rounded-full shadow-lg mb-1 sm:mb-2 border border-gray-400">
                     </div>
-                    <span class="font-bold text-white">K</span>
+                    <span class="font-bold text-white text-xs sm:text-sm">K</span>
                 </button>
                 <button onclick="selectMetal('Rb')"
-                    class="btn-3d bg-slate-500 p-2 rounded-lg flex flex-col items-center border-slate-700 hover:bg-slate-400 group">
+                    class="btn-3d bg-slate-500 p-1.5 sm:p-2 rounded-lg flex flex-col items-center border-slate-700 hover:bg-slate-400 group">
                     <div
-                        class="w-8 h-8 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg transform rotate-12 shadow-lg mb-2 border border-gray-300">
+                        class="w-5 h-5 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-gradient-to-br from-gray-200 to-gray-400 rounded-lg transform rotate-12 shadow-lg mb-1 sm:mb-2 border border-gray-300">
                     </div>
-                    <span class="font-bold text-white">Rb</span>
+                    <span class="font-bold text-white text-xs sm:text-sm">Rb</span>
                 </button>
                 <button onclick="selectMetal('Cs')"
-                    class="btn-3d bg-slate-600 p-2 rounded-lg flex flex-col items-center border-slate-800 hover:bg-slate-500 group col-span-2">
+                    class="btn-3d bg-slate-600 p-1.5 sm:p-2 rounded-lg flex flex-col items-center border-slate-800 hover:bg-slate-500 group col-span-1 lg:col-span-2">
                     <div
-                        class="w-8 h-8 bg-gradient-to-br from-yellow-200 via-yellow-400 to-yellow-600 rounded-full shadow-lg mb-2 border border-yellow-200 shadow-yellow-500/20">
+                        class="w-5 h-5 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-gradient-to-br from-yellow-200 via-yellow-400 to-yellow-600 rounded-full shadow-lg mb-1 sm:mb-2 border border-yellow-200 shadow-yellow-500/20">
                     </div>
-                    <span class="font-bold text-yellow-200">Cs</span>
+                    <span class="font-bold text-yellow-200 text-xs sm:text-sm">Cs</span>
                 </button>
             </div>
         </div>
         <button onclick="resetExperiment()"
-            class="btn-3d bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 px-6 rounded-xl flex justify-center items-center gap-2 shadow-lg border-rose-800 w-full mt-auto">
-            <i data-lucide="rotate-ccw" class="w-5 h-5"></i> LÀM LẠI
+            class="btn-3d bg-rose-600 hover:bg-rose-500 text-white font-bold py-2 lg:py-3 px-4 lg:px-6 rounded-xl flex justify-center items-center gap-2 shadow-lg border-rose-800 w-full mt-2 lg:mt-auto text-xs sm:text-sm lg:text-base">
+            <i data-lucide="rotate-ccw" class="w-4 h-4 lg:w-5 lg:h-5"></i> LÀM LẠI
         </button>
     </div>
     <!-- TOAST -->
@@ -2056,16 +2185,16 @@
                     shieldLabel.innerText = "LỒNG KÍNH AN TOÀN";
                     tubeWrapper.appendChild(shieldLabel);
                 }
-                // PLAY BUTTON (Specific for each metal) - Added label text as requested
+                // PLAY BUTTON (Specific for each metal) - Compact for mobile screens
                 const metalNames = ['Li', 'Na', 'K', 'Rb', 'Cs'];
                 const playBtn = document.createElement('a');
                 playBtn.href = videoLinks[i];
                 playBtn.target = "_blank";
-                playBtn.className = 'flex items-center justify-center gap-1 bg-pink-600 hover:bg-pink-500 text-white px-2 py-1 rounded-full shadow-lg z-10 mt-1 transition-transform hover:scale-105 text-[9px] font-bold no-underline';
-                playBtn.title = "Xem video thực tế";
+                playBtn.className = 'flex items-center justify-center gap-1 bg-pink-600 hover:bg-pink-500 text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full shadow-lg z-10 mt-1 transition-transform hover:scale-105 text-[8px] sm:text-[9px] font-bold no-underline whitespace-nowrap';
+                playBtn.title = `Xem video ${metalNames[i]} + H₂O`;
                 playBtn.innerHTML = `
-                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                   <span>Video: ${metalNames[i]} + H₂O</span>
+                   <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                   <span>${metalNames[i]}</span>
                `;
                 tubeWrapper.appendChild(playBtn);
 
@@ -2073,6 +2202,55 @@
             }
         }
         init();
+
+        // Mobile Tab Switcher
+        let currentMobileTab = 'exp';
+        function switchMobileTab(tab) {
+            currentMobileTab = tab;
+            const sidebar = document.getElementById('sidebar-panel');
+            const stage = document.getElementById('stage-panel');
+            const tools = document.getElementById('tools-panel');
+            const tabExp = document.getElementById('tab-btn-exp');
+            const tabLearn = document.getElementById('tab-btn-learn');
+
+            if (window.innerWidth >= 1024) return; // Desktop maintains side-by-side
+
+            if (tab === 'exp') {
+                if (sidebar) sidebar.classList.add('hidden');
+                if (stage) stage.classList.remove('hidden');
+                if (tools) tools.classList.remove('hidden');
+
+                if (tabExp) {
+                    tabExp.className = "py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow bg-indigo-600 text-white";
+                }
+                if (tabLearn) {
+                    tabLearn.className = "py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-all text-slate-700 hover:bg-white/60";
+                }
+            } else {
+                if (sidebar) sidebar.classList.remove('hidden');
+                if (stage) stage.classList.add('hidden');
+                if (tools) tools.classList.add('hidden');
+
+                if (tabExp) {
+                    tabExp.className = "py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-all text-slate-700 hover:bg-white/60";
+                }
+                if (tabLearn) {
+                    tabLearn.className = "py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow bg-indigo-600 text-white";
+                }
+            }
+        }
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                const sidebar = document.getElementById('sidebar-panel');
+                const stage = document.getElementById('stage-panel');
+                const tools = document.getElementById('tools-panel');
+                if (sidebar) sidebar.classList.remove('hidden');
+                if (stage) stage.classList.remove('hidden');
+                if (tools) tools.classList.remove('hidden');
+            } else {
+                switchMobileTab(currentMobileTab);
+            }
+        });
 
         // Modal Logic
         function toggleModal(modalId) {
@@ -2085,6 +2263,8 @@
                 if (modalId === 'safetyModal') {
                     const btn = document.getElementById('btnSafety');
                     if (btn) btn.classList.remove('animate-pulse');
+                    const btnM = document.getElementById('btnSafety-mobile');
+                    if (btnM) btnM.classList.remove('animate-pulse');
                 }
             }
         }
